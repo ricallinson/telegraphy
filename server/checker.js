@@ -6,7 +6,8 @@
 var util = require('util'),
     ImapConnection = require('imap').ImapConnection,
     mail = require("./lib/mail"),
-    path = require("path");
+    path = require("path"),
+    alerts = require("./lib/serial");
 
 /*
     Set the root location of the configuration files.
@@ -31,6 +32,8 @@ mail.readConfigs(function (accounts) {
             } else {
                 imap.openBox('INBOX', false, function (err, mailbox) {
 
+                    console.log(mailbox);
+                    
                     if (account.uidnext === mailbox.uidnext) {
                         imap.logout();
                         return;
@@ -49,6 +52,7 @@ mail.readConfigs(function (accounts) {
                     mail.saveConfig(account, function (err) {
                         console.log(mailbox);
                         imap.logout();
+                        alerts.triggerAlert();
                     });
                 });
             }

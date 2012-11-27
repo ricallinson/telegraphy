@@ -8,14 +8,13 @@ var SerialPort = require("serialport").SerialPort,
     port = "/dev/tty.usbserial-AH01O5E5",
     serial;
 
-exports.sendAlert = function () {
+exports.triggerAlert = function () {
 
     fs.stat(port, function (err, stats) {
 
         var value = 0x01,
             options = {
-                baudRate: 9600,
-                DTR: 0
+                baudRate: 9600
             };
 
         if (err) {
@@ -40,4 +39,4 @@ exports.sendAlert = function () {
 };
 
 // Test code
-exports.sendAlert();
+// exports.triggerAlert();

@@ -1,3 +1,8 @@
+
+/*
+    Load the modules required.
+*/
+
 var util = require('util'),
     ImapConnection = require('imap').ImapConnection,
     mail = require("./lib/mail"),

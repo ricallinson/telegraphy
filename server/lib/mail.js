@@ -1,3 +1,8 @@
+
+/*
+    Load the modules required.
+*/
+
 var fs = require("fs"),
     path = require("path"),
     crypto = require('crypto'),

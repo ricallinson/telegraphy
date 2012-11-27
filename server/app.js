@@ -1,3 +1,8 @@
+
+/*
+    Load the modules required.
+*/
+
 var express = require("express"),
     consolidate = require('consolidate'),
     mail = require("./lib/mail"),

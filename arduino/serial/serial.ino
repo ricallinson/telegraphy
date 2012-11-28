@@ -6,6 +6,9 @@ void alert() {
   sequence();
   delay(800);
   sequence();
+  sequence();
+  delay(800);
+  sequence();
 }
 
 void sequence() {

@@ -11,7 +11,7 @@ var fs = require("fs"),
     REGEX_EXT = /.cfg$/;
 
 /*
-    Encode the given string
+    Encode the given string.
 */
 
 function encode(text, secret) {
@@ -22,7 +22,7 @@ function encode(text, secret) {
 }
 
 /*
-    Decode the given string
+    Decode the given string.
 */
 
 function decode(text, secret) {
@@ -33,13 +33,13 @@ function decode(text, secret) {
 }
 
 /*
-    The directory of the configuration files
+    The directory used for the configuration files.
 */
 
 exports.root = "";
 
 /*
-    Saves the given JS object to an encrypted configuration file
+    Saves the given JS object to an encrypted configuration file.
 */
 
 exports.saveConfig = function (cfg, fn) {
@@ -65,6 +65,10 @@ exports.saveConfig = function (cfg, fn) {
         return;
     }
 
+    /*
+        Write the configuration file to disk in the "exports.root" directory.
+    */
+
     fs.writeFile(filename, file, "utf8", function (err) {
         if (err) {
             console.log("Error saving: " + filename);
@@ -76,16 +80,24 @@ exports.saveConfig = function (cfg, fn) {
 };
 
 /*
-    Deletes the configuration file saved with "username"
+    Deletes the configuration file saved with "username".
 */
 
 exports.deleteConfig = function (username, fn) {
 
     var filename = path.join(exports.root, username + EXT);
 
+    /*
+        If we were not given a callback create a fake one.
+    */
+
     if (!fn) {
         fn = function () {};
     }
+
+    /*
+        Delete the "username" configuration file in the "exports.root" directory.
+    */
 
     fs.unlink(filename, function (err) {
         if (err) {

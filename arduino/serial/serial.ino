@@ -3,8 +3,14 @@ const int LED1 = 4;
 const int LED2 = 5;
 
 void alert() {
+  sequence();
+  delay(800);
+  sequence();
+}
 
-  int val[] = {1, 2, 3, 2, 1, 0};
+void sequence() {
+
+  int val[] = {1, 2, 3, 1, 0, 1, 2, 1, 0, 1, 2, 3, 2, 1, 0};
   int length = sizeof(val) / sizeof(int);
 
   for (int i = 0; i < length; i++) {

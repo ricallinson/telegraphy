@@ -30,6 +30,15 @@ exports.check = function () {
     configs.readConfigs(function (accounts) {
 
         /*
+            If no accounts are provided we just log a message and return.
+        */
+
+        if (accounts.length === 0) {
+            console.log("No configuration files were found for checking.");
+            return;
+        }
+
+        /*
             Now we loop through each of the accounts returned to check them.
         */
 

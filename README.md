@@ -1,15 +1,11 @@
 # Telegraphy
 
-Telegraphy is a project that uses an [Arduino](http://www.arduino.cc/) microcontroller and [Node](http://nodejs.org/) to provide physical notifications for the arrival of new emails.
+Telegraphy is a project that uses an [Arduino](http://www.arduino.cc/) microcontroller and [Node](http://nodejs.org/) to provide physical notifications for the arrival of emails.
 
-## Overview
-
-...
-
-## Use
+## Install
 
     git clone git@github.com:ricallinson/telegraphy.git
-    cd telegraphy
+    cd ./telegraphy
 
 ### Arduino
 
@@ -19,7 +15,7 @@ From within the Arduino IDE open the __./arduino/notifier/notifier.ino__ sketch.
 
 You must have [Node](http://nodejs.org/) and [npm](https://npmjs.org/) installed to follow these steps.
 
-    cd node
+    cd ./node
     npm install
     npm start
 

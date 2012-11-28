@@ -1,6 +1,6 @@
 {
-    "name": "hoobr",
-    "description": "",
+    "name": "telegraphy",
+    "description": "Giving email a physical side.",
     "version": "0.0.1",
     "author": {
         "name": "Richard S Allinson",
@@ -25,7 +25,7 @@
         "url": "https://github.com/ricallinson/hoobr.git"
     },
     "scripts": {
-    	"start": "./app.js",
+    	"start": "node ./app.js",
         "test": "mocha ./test"
     },
     "license": "MIT"

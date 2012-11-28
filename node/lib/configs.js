@@ -120,14 +120,51 @@ exports.readConfigs = function (fn) {
 
         var configs = [];
 
+        /*
+            If there are no files in the folder set the list to an empty array.
+        */
+
+        if (!list) {
+            list = [];
+        }
+
+        /*
+            For each file in the list.
+        */
+
         list.forEach(function (filename) {
+
             var json;
+
+            /*
+                Check that the file is one of our configuration files.
+            */
+
             if (REGEX_EXT.test(filename)) {
+
+                /*
+                    Read the raw file and decode it.
+                */
+
                 file = decode(fs.readFileSync(path.join(exports.root, filename), "utf8"), SECRET);
+
+                /*
+                    The decoded file is in JSON so parse it into a JS object.
+                */
+
                 json = JSON.parse(file);
+
+                /*
+                    Add the final object to the "configs" array.
+                */
+
                 configs.push(json);
             }
         });
+
+        /*
+            Return the array of configuration objects.
+        */
 
         fn(configs);
     });

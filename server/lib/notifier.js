@@ -12,7 +12,6 @@ exports.sendAlert = function () {
     fs.stat(port, function (err, stats) {
 
         var serial,
-            value = 0x01,
             options = {
                 baudRate: 9600
             };
@@ -30,12 +29,12 @@ exports.sendAlert = function () {
         }
 
         serial.on("open", function () {
-            console.log("Sending alert to port: " + port);
-            serial.write(new Buffer([value]), function (err, data) {
+            console.log("Triggering alert on port: " + port);
+            serial.write(new Buffer([200]), function (err, data) {
                 if (err) {
                     console.log("Error triggering alert on port: " + port);
                 } else {
-                    console.log("Alert triggered on port: " + port);
+                    console.log("Alert triggered successfully on port: " + port);
                 }
                 serial.close(function () {
                     console.log("Closed connection on port: " + port);

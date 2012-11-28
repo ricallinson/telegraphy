@@ -1,37 +1,44 @@
-
-<div>
-    <a href="/check">Check all accounts now</a>
-    <a href="/notify">Trigger the notifier now</a>
-</div>
-{{#accounts}}
-<li>
-    <form action="/save" method="post">
-        <div>
-            <label>Username</label>
-            <input type="text" name="username" value="{{username}}">
-        </div>
-        <div>
-            <label>Password</label>
-            <input type="password" name="password" value="{{password}}">
-        </div>
-        <div>
-            <label>Host</label>
-            <input type="text" name="host" value="{{host}}">
-        </div>
-        <div>
-            <label>Port</label>
-            <input type="text" name="port" value="{{port}}">
-        </div>
-        <div>
-            <label>Secure</label>
-            <input type="text" name="secure" value="{{secure}}">
-        </div>
-        <div>
-            {{#if username}}
-            <input type="submit" name="action" value="Delete">
-            {{/if}}
-            <input type="submit" name="action" value="Save">
-        </div>
-    </form>
-</li>
-{{/accounts}}
+<html>
+<head>
+    <title>Notifier</title>
+</head>
+<body>
+    <div>
+        <a href="/check">Check all accounts now</a>
+        <a href="/notify">Trigger the notifier now</a>
+    </div>
+    <ul>
+        {{#accounts}}
+        <li>
+            <form action="/save" method="post">
+                <div>
+                    <label>Username</label>
+                    <input type="text" name="username" value="{{username}}">
+                </div>
+                <div>
+                    <label>Password</label>
+                    <input type="password" name="password" value="{{password}}">
+                </div>
+                <div>
+                    <label>Host</label>
+                    <input type="text" name="host" value="{{host}}">
+                </div>
+                <div>
+                    <label>Port</label>
+                    <input type="text" name="port" value="{{port}}">
+                </div>
+                <div>
+                    <label>Secure</label>
+                    <input type="text" name="secure" value="{{secure}}">
+                </div>
+                <div>
+                    {{#if username}}
+                    <input type="submit" name="action" value="Delete">
+                    {{/if}}
+                    <input type="submit" name="action" value="Save">
+                </div>
+            </form>
+        </li>
+        {{/accounts}}
+    </ul>
+</body>

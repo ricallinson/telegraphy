@@ -5,7 +5,9 @@
 
 var express = require("express"),
     consolidate = require('consolidate'),
-    mail = require("./lib/mail"),
+    configs = require("./lib/configs"),
+    checker = require("./lib/checker"),
+    notifier = require("./lib/notifier"),
     path = require("path"),
     app = express();
 
@@ -13,7 +15,7 @@ var express = require("express"),
     Set the root location of the configuration files
 */
 
-mail.root = path.join(__dirname, "cfg");
+configs.root = path.join(__dirname, "cfg");
 
 /*
     assign the swig engine to .html files
@@ -32,7 +34,7 @@ app.use(express.bodyParser());
 
 app.get("/", function (req, res) {
 
-    mail.readConfigs(function (accounts) {
+    configs.readConfigs(function (accounts) {
 
         accounts.push({
             label: "Save"
@@ -45,9 +47,9 @@ app.get("/", function (req, res) {
 app.post("/save", function (req, res) {
 
     if (req.body.action === "Delete") {
-        mail.deleteConfig(req.body.username);
+        configs.deleteConfig(req.body.username);
     } else if (req.body.action === "Save") {
-        mail.saveConfig({
+        configs.saveConfig({
             username: req.body.username,
             password: req.body.password,
             host: req.body.host,
@@ -56,7 +58,17 @@ app.post("/save", function (req, res) {
         });
     }
 
-    res.redirect("back");
+    res.redirect("/");
+});
+
+app.get("/check", function (req, res) {
+    checker.check();
+    res.redirect("/");
+});
+
+app.get("/notify", function (req, res) {
+    notifier.sendAlert();
+    res.redirect("/");
 });
 
 app.listen(8080);

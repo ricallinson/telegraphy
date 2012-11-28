@@ -7,7 +7,8 @@ var fs = require("fs"),
     path = require("path"),
     crypto = require('crypto'),
     SECRET = "xxx",
-    EXT = ".cfg";
+    EXT = ".cfg",
+    REGEX_EXT = /.cfg$/;
 
 /*
     Encode the given string
@@ -67,10 +68,10 @@ exports.saveConfig = function (cfg, fn) {
     fs.writeFile(filename, file, "utf8", function (err) {
         if (err) {
             console.log("Error saving: " + filename);
-            fn(false);
+            fn(true);
         }
         console.log("Successfully saved: " + filename);
-        fn(true);
+        fn(false);
     });
 };
 
@@ -89,10 +90,10 @@ exports.deleteConfig = function (username, fn) {
     fs.unlink(filename, function (err) {
         if (err) {
             console.log("Error deleting: " + filename);
-            fn(false);
+            fn(true);
         }
         console.log("Successfully deleted: " + filename);
-        fn(true);
+        fn(false);
     });
 };
 
@@ -109,7 +110,7 @@ exports.readConfigs = function (fn) {
 
         list.forEach(function (filename) {
             var json;
-            if (/.cfg$/.test(filename)) {
+            if (REGEX_EXT.test(filename)) {
                 file = decode(fs.readFileSync(path.join(exports.root, filename), "utf8"), SECRET);
                 json = JSON.parse(file);
                 configs.push(json);

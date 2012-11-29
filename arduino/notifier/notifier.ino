@@ -1,231 +1,203 @@
+//    (The MIT License)
+//
+//    Copyright (c) 2012 Richard S Allinson <rsa@mountainmansoftware.com>
+//
+//    Permission is hereby granted, free of charge, to any person obtaining
+//    a copy of this software and associated documentation files (the
+//    "Software"), to deal in the Software without restriction, including
+//    without limitation the rights to use, copy, modify, merge, publish,
+//    distribute, sublicense, and/or sell copies of the Software, and to
+//    permit persons to whom the Software is furnished to do so, subject to
+//    the following conditions:
+//
+//    The above copyright notice and this permission notice shall be
+//    included in all copies or substantial portions of the Software.
+//
+//    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+//    EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+//    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+//    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+//    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+//    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+//    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+/*
+    The pin to use for sending dots and dashes.
+*/
 
 const int LED0 = 13;
+
+/*
+    The time in ms for a single morsecode UNIT.
+*/
+
 const int UNIT = 300;
 
 /*
-  Takes the given "message" as passes it char by char to "morse()".
+    Mapping of chars to international morsecode
+*/
+
+const int CODES[26][4] = {
+    {1, 3, 0, 0}, // A .-
+    {3, 1, 1, 1}, // B -...
+    {3, 1, 3, 1}, // C -.-.
+    {3, 1, 1, 0}, // D -..
+    {1, 0, 0, 0}, // E .
+    {1, 1, 3, 1}, // F ..-.
+    {3, 3, 1, 0}, // G --.
+    {1, 1, 1, 1}, // H ....
+    {1, 1, 0, 0}, // I ..
+    {1, 3, 3, 3}, // J .---
+    {2, 1, 3, 0}, // K -.-
+    {1, 3, 1, 1}, // L .-..
+    {3, 3, 0, 0}, // M --
+    {3, 1, 0, 0}, // N -.
+    {3, 3, 3, 0}, // O ---
+    {1, 3, 3, 1}, // P .--.
+    {3, 3, 1, 3}, // Q --.-
+    {1, 3, 1, 0}, // R .-.
+    {1, 1, 1, 0}, // S ...
+    {3, 0, 0, 0}, // T -
+    {1, 1, 3, 0}, // U ..-
+    {1, 1, 1, 3}, // V ...-
+    {1, 3, 3, 0}, // W .--
+    {3, 1, 1, 3}, // X -..-
+    {3, 1, 3, 3}, // Y -.--
+    {3, 3, 1, 1}  // Z --..
+};
+
+/*
+    Takes the given "message" and passes it char-by-char to the "morse()" function.
 */
 
 void toMorse(int pin, char *message, int length) {
-  for (int i = 0; i < length; i++) {
-    morse(pin, message[i]);
-  }
+    for (int i = 0; i < length; i++) {
+        morse(pin, message[i]);
+    }
 }
 
 /*
   Takes the given ASCII code and converts it to international morsecode
   output by setting the given pin to HIGH and LOW accordingly.
-
-  Not the best code in the world as I don't think a switch statement is the right choice.
 */
 
 void morse(int pin, int letter) {
 
-  int code[4];
+    /*
+        Send the letter code we just got to the serial port for debugging.
+    */
 
-  Serial.println(letter);
+    Serial.println(letter);
 
-  switch (letter) {
-    case 65: // A .-
-      code[0] = 1;
-      code[1] = 2;
-      code[2] = 0;
-      code[3] = 0;
-      break;
-    case 66: // B -...
-      code[0] = 2;
-      code[1] = 1;
-      code[2] = 1;
-      code[3] = 1;
-      break;
-    case 67: // C -.-.
-      code[0] = 2;
-      code[1] = 1;
-      code[2] = 2;
-      code[3] = 1;
-      break;
-    case 68: // D -..
-      code[0] = 2;
-      code[1] = 1;
-      code[2] = 1;
-      code[3] = 0;
-      break;
-    case 69: // E .
-      code[0] = 1;
-      code[1] = 0;
-      code[2] = 0;
-      code[3] = 0;
-      break;
-    case 70: // F ..-.
-      code[0] = 1;
-      code[1] = 1;
-      code[2] = 2;
-      code[3] = 1;
-      break;
-    case 71: // G --.
-      code[0] = 2;
-      code[1] = 2;
-      code[2] = 1;
-      code[3] = 0;
-      break;
-    case 72: // H ....
-      code[0] = 1;
-      code[1] = 1;
-      code[2] = 1;
-      code[3] = 1;
-      break;
-    case 73: // I ..
-      code[0] = 1;
-      code[1] = 1;
-      code[2] = 0;
-      code[3] = 0;
-      break;
-    case 74: // J .---
-      code[0] = 1;
-      code[1] = 2;
-      code[2] = 2;
-      code[3] = 2;
-      break;
-    case 75: // K -.-
-      code[0] = 2;
-      code[1] = 1;
-      code[2] = 2;
-      code[3] = 0;
-      break;
-    case 76: // L .-..
-      code[0] = 1;
-      code[1] = 2;
-      code[2] = 1;
-      code[3] = 1;
-      break;
-    case 77: // M --
-      code[0] = 2;
-      code[1] = 2;
-      code[2] = 0;
-      code[3] = 0;
-      break;
-    case 78: // N -.
-      code[0] = 2;
-      code[1] = 1;
-      code[2] = 0;
-      code[3] = 0;
-      break;
-    case 79: // O ---
-      code[0] = 2;
-      code[1] = 2;
-      code[2] = 2;
-      code[3] = 0;
-      break;
-    case 80: // P .--.
-      code[0] = 1;
-      code[1] = 2;
-      code[2] = 2;
-      code[3] = 1;
-      break;
-    case 81: // Q --.-
-      code[0] = 2;
-      code[1] = 2;
-      code[2] = 1;
-      code[3] = 2;
-      break;
-    case 82: // R .-.
-      code[0] = 1;
-      code[1] = 2;
-      code[2] = 1;
-      code[3] = 0;
-      break;
-    case 83: // S ...
-      code[0] = 1;
-      code[1] = 1;
-      code[2] = 1;
-      code[3] = 0;
-      break;
-    case 84: // T -
-      code[0] = 2;
-      code[1] = 0;
-      code[2] = 0;
-      code[3] = 0;
-      break;
-    case 85: // U ..-
-      code[0] = 1;
-      code[1] = 1;
-      code[2] = 2;
-      code[3] = 0;
-      break;
-    case 86: // V ...-
-      code[0] = 1;
-      code[1] = 1;
-      code[2] = 1;
-      code[3] = 2;
-      break;
-    case 87: // W .--
-      code[0] = 1;
-      code[1] = 2;
-      code[2] = 2;
-      code[3] = 0;
-      break;
-    case 88: // X -..-
-      code[0] = 0;
-      code[1] = 0;
-      code[2] = 0;
-      code[3] = 0;
-      break;
-    case 89: // Y -.--
-      code[0] = 2;
-      code[1] = 1;
-      code[2] = 2;
-      code[3] = 2;
-      break;
-    case 90: // Z --..
-      code[0] = 2;
-      code[1] = 2;
-      code[2] = 1;
-      code[3] = 1;
-      break;
-    default:
-      code[0] = 0;
-      code[1] = 0;
-      code[2] = 0;
-      code[3] = 0;
-  }
-  
-  if (letter == 32) { // space 7 units
-    delay(UNIT * 5); // gap between letters (2) + space between words (5) = 7
-  } else {
-    // It must be a letter
-    for (int i = 0; i < 4; i++) {
-      if (code[i] > 0) {
-        digitalWrite(pin, HIGH);
-        if (code[i] == 1) {
-          delay(UNIT); // dot 1 unit
-        } else {
-          delay(UNIT * 3); // dash 3 units
+    /*
+        Convert the ASCII code to the "codes" array indexing.
+    */
+
+    int pos = letter - 65;
+
+    /*
+        Work out what we need to do.
+    */
+
+    if (letter == 32) {
+
+        /*
+            If the letter is a space we need to wait 7 units.
+            The gap between the letters is 3 (we have this already from the last letter), plus the missing 
+            space between words (4) gives us a total of 7. So here we only have to wait 4 units.
+        */
+
+        delay(UNIT * 4);
+
+    } else if (pos >= 0 && pos < 26) {
+
+        /*
+            If the value of "pos" is within the array index we have a letter.
+        */
+
+        for (int i = 0; i < 4; i++) {
+
+            /*
+                As each morsecode is a max of 4 units we can simply
+                loop over them to see if we need to do anything.
+            */
+
+            if (CODES[pos][i] > 0) {
+
+                /*
+                    If the index code is greater than 0 then we activate the pin.
+                    How long the pin is active for is the UNIT * the index value.
+
+                    dot = 1 unit
+                    dash = 3 units
+                    spaces between the parts of the same letter = 1 unit
+                */
+
+                digitalWrite(pin, HIGH);
+                delay(UNIT * CODES[pos][i]);
+                digitalWrite(pin, LOW);
+                delay(UNIT);
+            }
         }
-        digitalWrite(pin, LOW);
-        delay(UNIT); // space between parts of the same leter 1 unit
-      }
+
+        /*
+            The gap between letters of the same word is 3 units.
+            As we already waited for 1 unit above we only have to wait 2 units here.
+        */
+
+        delay(UNIT * 2);
     }
-    delay(UNIT * 2); // gap between letters (1) + space between parts of the same leter (2) = 3 units
-  }
 }
+
+/*
+    Standard setup function.
+*/
 
 void setup() {
-  // Set the LED pins for output
-  pinMode(LED0, OUTPUT);
-  // Listen for incoming data
-  Serial.begin(9600);
-  // Run the test sequence of all supported chars
-  // char message[] = "ABCDEFGHIGKLMNOPQRSTUVWXYZ ";
-  char message[] = "A";
-  toMorse(LED0, message, sizeof(message) / sizeof(char) - 1);
+
+    /*
+        Set the LED pin to use for morsecode output.
+    */
+
+    pinMode(LED0, OUTPUT);
+
+    /*
+        Listen for incoming data on the serial port.
+    */
+
+    Serial.begin(9600);
+
+    /*
+        Create a message to use in the sent alert once the setup is complete.
+    */
+
+    char message[] = "A";
+
+    /*
+        Send the message to announce that the setup is complete.
+    */
+
+    toMorse(LED0, message, sizeof(message) / sizeof(char) - 1);
 }
+
+/*
+    Standard loop function.
+*/
 
 void loop() {
-  if (Serial.available() > 0) {
-    // Read a byte from the available data
-    int incomingByte = Serial.read();
-    // Output byte as morsecode
-    morse(LED0, incomingByte);
-  }
-}
 
+    if (Serial.available() > 0) {
+
+        /*
+            If there is data available on the serial port read the first byte.
+        */
+
+        int incomingByte = Serial.read();
+
+        /*
+            Output byte we just read as morsecode.
+        */
+
+        morse(LED0, incomingByte);
+    }
+}

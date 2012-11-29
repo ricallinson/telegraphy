@@ -1,17 +1,25 @@
 
 const int LED0 = 13;
-const int LED1 = 12;
-const int LED2 = 11;
-
 const int UNIT = 300;
 
-void toMorse(char *message, int length) {
+/*
+  Takes the given "message" as passes it char by char to "morse()".
+*/
+
+void toMorse(int pin, char *message, int length) {
   for (int i = 0; i < length; i++) {
-    morse(message[i]);
+    morse(pin, message[i]);
   }
 }
 
-void morse(int letter) {
+/*
+  Takes the given ASCII code and converts it to international morsecode
+  output by setting the given pin to HIGH and LOW accordingly.
+
+  Not the best code in the world as I don't think a switch statement is the right choice.
+*/
+
+void morse(int pin, int letter) {
 
   int code[4];
 
@@ -187,13 +195,13 @@ void morse(int letter) {
     // It must be a letter
     for (int i = 0; i < 4; i++) {
       if (code[i] > 0) {
-        digitalWrite(LED0, HIGH);
+        digitalWrite(pin, HIGH);
         if (code[i] == 1) {
           delay(UNIT); // dot 1 unit
         } else {
           delay(UNIT * 3); // dash 3 units
         }
-        digitalWrite(LED0, LOW);
+        digitalWrite(pin, LOW);
         delay(UNIT); // space between parts of the same leter 1 unit
       }
     }
@@ -204,14 +212,12 @@ void morse(int letter) {
 void setup() {
   // Set the LED pins for output
   pinMode(LED0, OUTPUT);
-  pinMode(LED1, OUTPUT);
-  pinMode(LED2, OUTPUT);
   // Listen for incoming data
   Serial.begin(9600);
   // Run the test sequence of all supported chars
   // char message[] = "ABCDEFGHIGKLMNOPQRSTUVWXYZ ";
   char message[] = "A";
-  toMorse(message, sizeof(message) / sizeof(char) - 1);
+  toMorse(LED0, message, sizeof(message) / sizeof(char) - 1);
 }
 
 void loop() {
@@ -219,7 +225,7 @@ void loop() {
     // Read a byte from the available data
     int incomingByte = Serial.read();
     // Output byte as morsecode
-    morse(incomingByte);
+    morse(LED0, incomingByte);
   }
 }
 

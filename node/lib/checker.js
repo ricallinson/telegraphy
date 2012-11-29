@@ -127,7 +127,7 @@ exports.check = function () {
                             Finally we tell the notifier to send an alert.
                         */
 
-                        notifier.sendAlert();
+                        notifier.sendAlert("New mail");
                     });
                 });
             });

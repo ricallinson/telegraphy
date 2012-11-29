@@ -11,7 +11,7 @@ var SerialPort = require("serialport").SerialPort,
     Trigger the Arduino to sound an alert.
 */
 
-exports.sendAlert = function () {
+exports.sendAlert = function (msg) {
 
     /*
         Check that there is a USB serial port to use.
@@ -46,14 +46,33 @@ exports.sendAlert = function () {
         */
 
         serial.on("open", function () {
-            console.log("Triggering alert on port: " + port);
+
+            /*
+                Set a default message for the alert if one is not given.
+            */
+
+            if (!msg) {
+                msg = "alert";
+            }
+
+            /*
+                Make sure the message is uppercase and is only A-Z or spaces.
+            */
+
+            msg = msg.toUpperCase().replace(/[^A-Z ]/g, " ");
+
+            /*
+                Log that we are going to try and send a message.
+            */
+
+            console.log("Triggering alert message '" + msg + "' on port: " + port);
 
             /*
                 Now the port is open we write the "200" code.
                 This will tell the Arduino to run it's alert sequence.
             */
 
-            serial.write(new Buffer([200]), function (err, data) {
+            serial.write(msg, function (err, data) {
 
                 /*
                     Log if this was a success or failure.

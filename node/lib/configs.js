@@ -73,6 +73,7 @@ exports.saveConfig = function (cfg, fn) {
         if (err) {
             console.log("Error saving: " + filename);
             fn(true);
+            return;
         }
         console.log("Successfully saved: " + filename);
         fn(false);

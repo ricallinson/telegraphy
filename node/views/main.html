@@ -16,6 +16,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 </head>
 <body>
+
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="navbar-inner">
             <div class="container">
@@ -31,15 +32,17 @@
     </div>
 
     <div class="container">
-        <div class="hero-unit">
-            <h1>Telegraphy <small>Giving email a physical side.</small></h1>
+        <div class="well">
+            <h3>For Physical Email</h3>
+            <p>Hook up your email accounts to <b>Telegraphy</b> then sit back and watch up to the minute notifications flash before your eyes. Using the magic of morse code new emails announce themselves with a flurry dot and dashes without the need of a troublesome computing device.</p>
             <br>
             <p>
-                <a href="/notify" class="btn btn-primary btn-large">Trigger the notifier now</a>
+                <a href="/notify" class="btn btn-primary">Trigger the notifier now</a>
             </p>
         </div>
 
         <div>
+            <h2>Accounts</h2>
             {{#accounts}}
             <div class="account">
                 <form class="form-horizontal" action="/save" method="post">
@@ -107,5 +110,9 @@
             </div>
             {{/accounts}}
         </div>
-    <div>
+
+        <div class="footer">
+            <a class="btn" href="https://github.com/ricallinson/telegraphy">Get the source</a>
+        </div>
+    </div>
 </body>

@@ -20,3 +20,5 @@ You must have [Node](http://nodejs.org/) and [npm](https://npmjs.org/) installed
     npm start
 
 Once running open [http://127.0.0.1:8080/](http://127.0.0.1:8080/) in a browser.
+
+Using the magic of morse code new emails announce themselves with a flurry dot and dashes.

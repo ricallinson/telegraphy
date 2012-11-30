@@ -83,6 +83,7 @@ exports.saveConfig = function (cfg, fn) {
     */
 
     if (!cfg.username) {
+        console.log("Error saving as no username was given: " + filename);
         fn(false);
         return;
     }

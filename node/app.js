@@ -51,13 +51,19 @@ app.engine('html', consolidate.handlebars);
 */
 
 app.set('view engine', 'html');
-app.set('views', __dirname + '/views');
+app.set('views', path.join(__dirname, "views"));
 
 /*
     Use the connect bodyParser() to read the form values.
 */
 
 app.use(express.bodyParser());
+
+/*
+    Use the connect static() handler to serve assets.
+*/
+
+app.use(express.static(path.join(__dirname, "assets")));
 
 /*
     The main URL for the web application.
@@ -71,7 +77,10 @@ app.get("/", function (req, res) {
             Add an empty account so it can be used create a new one.
         */
 
-        accounts.push({});
+        accounts.push({
+            port: 993,
+            secure: false
+        });
 
         /*
             Render the accounts in the main HTML page.
@@ -95,7 +104,7 @@ app.post("/save", function (req, res) {
             password: req.body.password,
             host: req.body.host,
             port: req.body.port,
-            secure: req.body.secure
+            secure: (req.body.secure === "true" ? "true" : "")
         });
     }
 

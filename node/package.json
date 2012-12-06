@@ -14,7 +14,8 @@
         "consolidate": "*",
         "handlebars": "*",
         "imap": "*",
-        "serialport": "*"
+        "serialport": "*",
+        "commander": "*"
     },
     "devDependencies" : {
         "jslint": "*",
@@ -25,7 +26,6 @@
         "url": "https://github.com/ricallinson/hoobr.git"
     },
     "scripts": {
-    	"start": "node ./app.js",
         "test": "mocha ./test"
     },
     "license": "MIT"

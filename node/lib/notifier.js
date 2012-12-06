@@ -26,14 +26,25 @@
 */
 
 var SerialPort = require("serialport").SerialPort,
-    fs = require("fs"),
-    port = "/dev/tty.usbserial-AH01O5E5";
+    fs = require("fs");
+
+/*
+    The serial port to use.
+*/
+
+exports.port = "";
 
 /*
     Trigger the Arduino to sound an alert.
 */
 
 exports.sendAlert = function (msg) {
+
+    /*
+        Assign the port locally
+    */
+
+    var port = exports.port;
 
     /*
         Check that there is a USB serial port to use.

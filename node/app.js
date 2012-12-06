@@ -25,7 +25,8 @@
     Load the modules required.
 */
 
-var express = require("express"),
+var program = require("commander"),
+    express = require("express"),
     consolidate = require('consolidate'),
     configs = require("./lib/configs"),
     checker = require("./lib/checker"),
@@ -33,6 +34,24 @@ var express = require("express"),
     path = require("path"),
     app = express(),
     port = 8080;
+
+/*
+    Get the command line inputs
+*/
+
+program
+    .version('0.0.1')
+    .option('-s, --serial-port [port]', 'The serial port to use', null)
+    .option('-i, --interval [minutes]', 'The number of minutes between checks', 5)
+    .parse(process.argv);
+
+/*
+    If we were given a serial port set it in the "notifier".
+*/
+
+if (program.serialPort) {
+    notifier.port = program.serialPort;
+}
 
 /*
     Set the root location of the configuration files.
@@ -140,3 +159,11 @@ app.listen(port);
 */
 
 console.log("Started on http://127.0.0.1:" + port + "/");
+
+/*
+    With the web application running we now check for mail every n minutes.
+*/
+
+setInterval(function () {
+    checker.check();
+}, program.interval * 1000 * 60);

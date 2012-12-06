@@ -17,6 +17,10 @@ You must have [Node](http://nodejs.org/) and [npm](https://npmjs.org/) installed
 
     cd ./node
     npm install
-    npm start
+    node app.js -s <serial-port>
 
 Once running open [http://127.0.0.1:8080/](http://127.0.0.1:8080/) in a browser.
+
+## Links
+
+* [FTDI Drivers](http://www.ftdichip.com/Drivers/VCP.htm)

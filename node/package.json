@@ -23,7 +23,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/ricallinson/hoobr.git"
+        "url": "git@github.com:ricallinson/telegraphy.git"
     },
     "scripts": {
         "test": "mocha ./test"

@@ -22,19 +22,13 @@
 //    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /*
-    The pin to use for sending dots and dashes.
-*/
-
-const int LED0 = 13;
-
-/*
-    The time in ms for a single morsecode UNIT.
+    The time in ms for a single morse code UNIT.
 */
 
 const int UNIT = 200;
 
 /*
-    Mapping of chars to international morsecode
+    Mapping of chars to international morse code
 */
 
 const int CODES[26][4] = {
@@ -67,13 +61,21 @@ const int CODES[26][4] = {
 };
 
 /*
-    Set the LED pins to use for morsecode output.
+    The master pin to use for sending dots and dashes.
+    We use PIN 13's a LED on the board to make it easy to test.
+    All other pins are a negative offset from this one.
+*/
+
+const int MASTERPIN = 13;
+
+/*
+    Set the LED pins to use for morse code output.
 */
 
 void pins() {
-    pinMode(LED0, OUTPUT);
-    pinMode(LED0 - 1, OUTPUT);
-    pinMode(LED0 - 2, OUTPUT);
+    pinMode(MASTERPIN, OUTPUT);
+    pinMode(MASTERPIN - 1, OUTPUT);
+    pinMode(MASTERPIN - 2, OUTPUT);
 }
 
 /*
@@ -81,9 +83,9 @@ void pins() {
 */
 
 void on() {
-    digitalWrite(LED0, HIGH);
-    digitalWrite(LED0 - 1, HIGH);
-    tone(LED0 - 2, 780);
+    digitalWrite(MASTERPIN, HIGH);
+    digitalWrite(MASTERPIN - 1, HIGH);
+    tone(MASTERPIN - 2, 780);
 }
 
 /*
@@ -91,9 +93,9 @@ void on() {
 */
 
 void off() {
-    digitalWrite(LED0, LOW);
-    digitalWrite(LED0 - 1, LOW);
-    noTone(LED0 - 2);
+    digitalWrite(MASTERPIN, LOW);
+    digitalWrite(MASTERPIN - 1, LOW);
+    noTone(MASTERPIN - 2);
 }
 
 /*
@@ -107,7 +109,7 @@ void toMorse(char *message, int length) {
 }
 
 /*
-  Takes the given ASCII code and converts it to international morsecode
+  Takes the given ASCII code and converts it to international morse code
   output by setting the given pin to HIGH and LOW accordingly.
 */
 
@@ -148,7 +150,7 @@ void morse(int letter) {
         for (int i = 0; i < 4; i++) {
 
             /*
-                As each morsecode is a max of 4 units we can simply
+                As each morse code is a max of 4 units we can simply
                 loop over them to see if we need to do anything.
             */
 
@@ -186,7 +188,7 @@ void morse(int letter) {
 void setup() {
 
     /*
-        Setup the pins to use for morsecode output.
+        Setup the pins to use for morse code output.
     */
 
     pins();
@@ -225,7 +227,7 @@ void loop() {
         int incomingByte = Serial.read();
 
         /*
-            Output byte we just read as morsecode.
+            Output byte we just read as morse code.
         */
 
         morse(incomingByte);

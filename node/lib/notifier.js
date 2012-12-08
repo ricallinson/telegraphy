@@ -35,6 +35,16 @@ var SerialPort = require("serialport").SerialPort,
 exports.port = "";
 
 /*
+    A simple wrapper function around "serialport.list".
+*/
+
+exports.listPorts = function (fn) {
+    require("serialport").list(function (err, ports) {
+        fn(ports);
+    });
+};
+
+/*
     Trigger the Arduino to sound an alert.
 */
 

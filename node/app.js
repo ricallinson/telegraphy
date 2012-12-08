@@ -46,11 +46,29 @@ program
     .parse(process.argv);
 
 /*
-    If we were given a serial port set it in the "notifier".
+    We cannot do anyhting without a serial port so it's the first thing we check.
 */
 
 if (program.serialPort) {
+
+    /*
+        If we were given a serial port set it in the "notifier".
+    */
+
     notifier.port = program.serialPort;
+
+} else {
+
+    /*
+        If we were not given a serial port, list the ones avaliable and exit.
+    */
+
+    notifier.listPorts(function (ports) {
+        ports.forEach(function (port) {
+            console.log(port.comName);
+        });
+        process.exit(0);
+    });
 }
 
 /*

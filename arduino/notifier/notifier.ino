@@ -31,7 +31,7 @@ const int LED0 = 13;
     The time in ms for a single morsecode UNIT.
 */
 
-const int UNIT = 300;
+const int UNIT = 200;
 
 /*
     Mapping of chars to international morsecode
@@ -67,12 +67,42 @@ const int CODES[26][4] = {
 };
 
 /*
+    Set the LED pins to use for morsecode output.
+*/
+
+void pins() {
+    pinMode(LED0, OUTPUT);
+    pinMode(LED0 - 1, OUTPUT);
+    pinMode(LED0 - 2, OUTPUT);
+}
+
+/*
+    Words
+*/
+
+void on() {
+    digitalWrite(LED0, HIGH);
+    digitalWrite(LED0 - 1, HIGH);
+    tone(LED0 - 2, 780);
+}
+
+/*
+    Words
+*/
+
+void off() {
+    digitalWrite(LED0, LOW);
+    digitalWrite(LED0 - 1, LOW);
+    noTone(LED0 - 2);
+}
+
+/*
     Takes the given "message" and passes it char-by-char to the "morse()" function.
 */
 
-void toMorse(int pin, char *message, int length) {
+void toMorse(char *message, int length) {
     for (int i = 0; i < length; i++) {
-        morse(pin, message[i]);
+        morse(message[i]);
     }
 }
 
@@ -81,7 +111,7 @@ void toMorse(int pin, char *message, int length) {
   output by setting the given pin to HIGH and LOW accordingly.
 */
 
-void morse(int pin, int letter) {
+void morse(int letter) {
 
     /*
         Send the letter code we just got to the serial port for debugging.
@@ -133,9 +163,9 @@ void morse(int pin, int letter) {
                     spaces between the parts of the same letter = 1 unit
                 */
 
-                digitalWrite(pin, HIGH);
+                on();
                 delay(UNIT * CODES[pos][i]);
-                digitalWrite(pin, LOW);
+                off();
                 delay(UNIT);
             }
         }
@@ -156,10 +186,10 @@ void morse(int pin, int letter) {
 void setup() {
 
     /*
-        Set the LED pin to use for morsecode output.
+        Setup the pins to use for morsecode output.
     */
 
-    pinMode(LED0, OUTPUT);
+    pins();
 
     /*
         Listen for incoming data on the serial port.
@@ -177,7 +207,7 @@ void setup() {
         Send the message to announce that the setup is complete.
     */
 
-    toMorse(LED0, message, sizeof(message) / sizeof(char) - 1);
+    toMorse(message, sizeof(message) / sizeof(char) - 1);
 }
 
 /*
@@ -198,6 +228,6 @@ void loop() {
             Output byte we just read as morsecode.
         */
 
-        morse(LED0, incomingByte);
+        morse(incomingByte);
     }
 }

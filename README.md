@@ -24,3 +24,21 @@ Once running open [http://127.0.0.1:8080/](http://127.0.0.1:8080/) in a browser.
 ## Links
 
 * [FTDI Drivers](http://www.ftdichip.com/Drivers/VCP.htm)
+
+## Raspberry
+
+    apt-get update
+    apt-get install npm
+    apt-get install git
+    git clone https://github.com/ricallinson/telegraphy.git
+    cd telegraphy/node
+    npm i
+    node app.js -s <serialport>
+
+### Fix serialport package
+
+	sudo npm install serialport@1.0.6
+    cd node_modules/serialport
+	node_modules/node-gyp/bin/node-gyp.js configure binding.gyp 
+	node_modules/node-gyp/bin/node-gyp.js build 
+	node_modules/node-gyp/bin/node-gyp.js install

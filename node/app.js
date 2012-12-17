@@ -162,7 +162,7 @@ app.get("/check", function (req, res) {
 */
 
 app.get("/notify", function (req, res) {
-    notifier.sendAlert();
+    notifier.sendAlert(req.query.msg || "New email received");
     res.redirect("/");
 });
 

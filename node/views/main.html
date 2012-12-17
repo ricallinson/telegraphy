@@ -35,9 +35,11 @@
         <div class="well">
             <h3>For Physical Email</h3>
             <p>Hook up your email accounts to <b>Telegraphy</b> then sit back and watch up to the minute notifications flash before your eyes. Using the magic of morse code new emails announce themselves with a flurry dots and dashes without the need of a troublesome computing device.</p>
-            <br>
             <p>
-                <a href="/notify" class="btn btn-primary">Trigger the notifier now</a>
+                <form  action="/notify" method="GET" class="form-inline">
+                    <input type="text" placeholder="New email received" name="msg" class="input-medium">
+                    <button type="submit" class="btn btn-primary">Trigger the notifier now</button>
+                </form>
             </p>
         </div>
 

@@ -68,12 +68,26 @@ exports.sendAlert = function (msg) {
             };
 
         /*
+            Set a default message for the alert if one is not given.
+        */
+
+        if (!msg) {
+            msg = "Alert";
+        }
+
+        /*
+            Make sure the message is uppercase and is only A-Z or spaces.
+        */
+
+        msg = msg.toUpperCase().replace(/[^A-Z ]/g, " ");
+
+        /*
             If there was an error we can do no more so return.
         */
 
         if (err) {
             console.log("Error finding port: " + port);
-            console.log("Did not attempt to trigger alert.");
+            console.log("Did not attempt to send alert message '" + msg + "'.");
             return;
         }
 
@@ -91,24 +105,10 @@ exports.sendAlert = function (msg) {
         serial.on("open", function () {
 
             /*
-                Set a default message for the alert if one is not given.
-            */
-
-            if (!msg) {
-                msg = "alert";
-            }
-
-            /*
-                Make sure the message is uppercase and is only A-Z or spaces.
-            */
-
-            msg = msg.toUpperCase().replace(/[^A-Z ]/g, " ");
-
-            /*
                 Log that we are going to try and send a message.
             */
 
-            console.log("Triggering alert message '" + msg + "' on port: " + port);
+            console.log("Sending alert message '" + msg + "' on port: " + port);
 
             /*
                 Now the port is open we write the "200" code.
@@ -122,9 +122,9 @@ exports.sendAlert = function (msg) {
                 */
 
                 if (err) {
-                    console.log("Error triggering alert on port: " + port);
+                    console.log("Error sending alert on port: " + port);
                 } else {
-                    console.log("Alert triggered successfully on port: " + port);
+                    console.log("Alert sent successfully on port: " + port);
                 }
 
                 /*

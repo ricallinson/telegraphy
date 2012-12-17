@@ -25,7 +25,7 @@ Once running open [http://127.0.0.1:8080/](http://127.0.0.1:8080/) in a browser.
 
 * [FTDI Drivers](http://www.ftdichip.com/Drivers/VCP.htm)
 
-## Raspberry
+## Setup Raspberry PI
 
     apt-get update
     apt-get install npm

@@ -57,6 +57,20 @@ if (program.serialPort) {
 
     notifier.port = program.serialPort;
 
+    /*
+        Open the serial port for ready later use.
+    */
+
+    notifier.openPort(function () {
+
+        /*
+            We don't wait for the callback as it will be not be used instantly.
+            It's assumed th port will be open and ready by the time it's required.
+        */
+
+        console.log("Opened connection on port: " + notifier.port);
+    });
+
 } else {
 
     /*

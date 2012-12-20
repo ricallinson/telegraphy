@@ -29,7 +29,7 @@
 
 const int EMPTY = 0;
 const int START = 7;
-const int END = -7;
+const int END = -6;
 
 int color = 100;
 
@@ -67,7 +67,7 @@ void tmp() {
     }
 
     if (buffer[0][0] > EMPTY) {
-        Rb.drawChar(buffer[0][0], buffer[0][1], 1, color);
+        Rb.drawChar(buffer[0][0], buffer[0][1], 0, color);
         buffer[0][1]--;
     }
 
@@ -77,11 +77,11 @@ void tmp() {
     }
 
     if (buffer[1][0] > EMPTY) {
-        Rb.drawChar(buffer[1][0], buffer[1][1], 1, color);
+        Rb.drawChar(buffer[1][0], buffer[1][1], 0, color);
         buffer[1][1]--;
     }
 
-    delay(150);
+    delay(100);
 
     Rb.blankDisplay();
 }
@@ -103,6 +103,8 @@ void setup() {
     */
 
     Serial.begin(9600);
+    
+    buffer[0][0] = 65; // A
 }
 
 /*

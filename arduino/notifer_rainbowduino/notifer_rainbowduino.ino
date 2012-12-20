@@ -27,6 +27,21 @@
 
 #include <Rainbowduino.h>
 
+const int EMPTY = 0;
+const int START = 7;
+const int END = -7;
+
+int color = 100;
+
+/*
+    Words.
+*/
+
+int buffer[2][2] = {
+    {EMPTY, START}, // char, pos
+    {EMPTY, START}
+};
+
 /*
     Set the pins to use for output.
 */
@@ -41,27 +56,33 @@ void pins() {
 }
 
 /*
-    Takes the given "message" and passes it char-by-char to the "screen()" function.
-*/
-
-void toScreen(char *message, int length) {
-    for (int i = 0; i < length; i++) {
-        screen(message[i]);
-    }
-}
-
-/*
     Words.
 */
 
-void screen(int letter) {
+void tmp() {
 
-    /*
-        More words.
-    */
+    if (buffer[0][1] == END) {
+        buffer[0][0] = EMPTY;
+        buffer[0][1] = START;
+    }
 
-    Rb.drawChar(letter, 0, 1, 100); 
-    delay(1000);
+    if (buffer[0][0] > EMPTY) {
+        Rb.drawChar(buffer[0][0], buffer[0][1], 1, color);
+        buffer[0][1]--;
+    }
+
+    if (buffer[1][1] == END) {
+        buffer[1][0] = EMPTY;
+        buffer[1][1] = START;
+    }
+
+    if (buffer[1][0] > EMPTY) {
+        Rb.drawChar(buffer[1][0], buffer[1][1], 1, color);
+        buffer[1][1]--;
+    }
+
+    delay(150);
+
     Rb.blankDisplay();
 }
 
@@ -82,18 +103,6 @@ void setup() {
     */
 
     Serial.begin(9600);
-
-    /*
-        Create a message to use in the sent alert once the setup is complete.
-    */
-
-    char message[] = "A";
-
-    /*
-        Send the message to announce that the setup is complete.
-    */
-
-    toScreen(message, sizeof(message) / sizeof(char) - 1);
 }
 
 /*
@@ -103,17 +112,13 @@ void setup() {
 void loop() {
 
     if (Serial.available() > 0) {
-
-        /*
-            If there is data available on the serial port read the first byte.
-        */
-
-        int incomingByte = Serial.read();
-
-        /*
-            Output byte we just read as morse code.
-        */
-
-        screen(incomingByte);
+        
+        if (buffer[0][0] == EMPTY) {
+            buffer[0][0] = Serial.read();
+        } else if (buffer[1][0] == EMPTY && buffer[0][1] == 0) {
+            buffer[1][0] = Serial.read();
+        }
     }
+
+    tmp();
 }

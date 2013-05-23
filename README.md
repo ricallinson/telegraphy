@@ -27,7 +27,7 @@ Once running open [http://127.0.0.1:8080/](http://127.0.0.1:8080/) in a browser.
 
 ## Setup Raspberry PI
 
-If you want to run Telegraphy on a Raspberry PI this is the quickest way to get going.
+If you want to run _Telegraphy_ on a Raspberry PI this is the quickest way to get going.
 
 ### SSH
 
@@ -42,7 +42,6 @@ If you want to run Telegraphy on a Raspberry PI this is the quickest way to get 
     git clone https://github.com/ricallinson/telegraphy.git
     cd telegraphy/node
     npm i
-    node server.js -s <serialport>
 
 ### Fix serialport package
 
@@ -51,3 +50,9 @@ If you want to run Telegraphy on a Raspberry PI this is the quickest way to get 
 	node_modules/node-gyp/bin/node-gyp.js configure binding.gyp 
 	node_modules/node-gyp/bin/node-gyp.js build 
 	node_modules/node-gyp/bin/node-gyp.js install
+
+### Start the server
+
+    /usr/bin/nodejs server.js
+    <serialport>
+    /usr/bin/nodejs server.js -s <serialport>

@@ -17,7 +17,7 @@ You must have [Node](http://nodejs.org/) and [npm](https://npmjs.org/) installed
 
     cd ./node
     npm install
-    node app.js -s <serial-port>
+    node server.js -s <serial-port>
 
 Once running open [http://127.0.0.1:8080/](http://127.0.0.1:8080/) in a browser.
 
@@ -27,13 +27,22 @@ Once running open [http://127.0.0.1:8080/](http://127.0.0.1:8080/) in a browser.
 
 ## Setup Raspberry PI
 
-    apt-get update
-    apt-get install npm
-    apt-get install git
+If you want to run Telegraphy on a Raspberry PI this is the quickest way to get going.
+
+### SSH
+
+    ssh <ip_address> -l pi
+    password: raspberry
+
+### Update and install
+
+    sudo apt-get update
+    sudo apt-get install npm
+    sudo apt-get install git
     git clone https://github.com/ricallinson/telegraphy.git
     cd telegraphy/node
     npm i
-    node app.js -s <serialport>
+    node server.js -s <serialport>
 
 ### Fix serialport package
 

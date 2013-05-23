@@ -31,7 +31,7 @@ const int EMPTY = 0;
 const int START = 7;
 const int END = -6;
 
-int color = 100;
+int color = 2000;
 
 /*
     Words.
@@ -81,7 +81,7 @@ void tmp() {
         buffer[1][1]--;
     }
 
-    delay(100);
+    delay(160);
 
     Rb.blankDisplay();
 }

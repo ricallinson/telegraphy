@@ -56,3 +56,16 @@ If you want to run _Telegraphy_ on a Raspberry PI this is the quickest way to ge
     /usr/bin/nodejs server.js
     <serialport>
     /usr/bin/nodejs server.js -s <serialport>
+
+### Run at boot time
+
+To run _Telegraphy_ at boot time you need to copy the startup script to the correct location and then restart the Raspberry PI.
+
+    sudo cp ~/telegraphy/raspberrypi/telegraphy /etc/init.d/telegraphy
+    sudo update-rc.d telegraphy defaults
+    sudo init 6
+
+You can undo this by running...
+
+    update-rc.d -f telegraphy remove
+

@@ -1,15 +1,15 @@
 #! /bin/sh
-# /etc/init.d/blah
+# /etc/init.d/telegraphy
 #
 
 # Some things that run always
-#touch /var/lock/blah
+# touch /var/lock/blah
 
 # Carry out specific functions when asked to by the system
 case "$1" in
   start)
     echo "Starting Telegraphy"
-    /usr/bin/nodejs server.js -s /dev/ttyUSB0
+    /usr/bin/nodejs /home/pi/telegraphy/node/server.js -s /dev/ttyUSB0
     ;;
   stop)
     echo "Stopping Telegraphy"

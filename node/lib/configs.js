@@ -38,7 +38,7 @@ var fs = require("fs"),
 
 function encode(text, secret) {
     var cipher = crypto.createCipher('aes-256-cbc', secret),
-        crypted = cipher.update(text,'utf8','hex')
+        crypted = cipher.update(text,'utf8','hex');
     crypted += cipher.final('hex');
     return crypted;
 }
@@ -49,9 +49,13 @@ function encode(text, secret) {
 
 function decode(text, secret) {
     var decipher = crypto.createDecipher('aes-256-cbc', secret),
-        dec = decipher.update(text,'hex','utf8')
-    dec += decipher.final('utf8');
-    return dec;
+        dec = decipher.update(text,'hex','utf8');
+    try {
+        dec += decipher.final('utf8');
+        return dec;
+    } catch (err) {
+        return "{}";
+    }
 }
 
 /*
@@ -158,7 +162,7 @@ exports.readConfigs = function (fn) {
 
         list.forEach(function (filename) {
 
-            var json;
+            var cfg;
 
             /*
                 Check that the file is one of our configuration files.
@@ -176,13 +180,15 @@ exports.readConfigs = function (fn) {
                     The decoded file is in JSON so parse it into a JS object.
                 */
 
-                json = JSON.parse(file);
+                cfg = JSON.parse(file);
 
                 /*
-                    Add the final object to the "configs" array.
+                    Add the final object to the "configs" array if it has data.
                 */
 
-                configs.push(json);
+                if (cfg.username) {
+                    configs.push(cfg);
+                }
             }
         });
 

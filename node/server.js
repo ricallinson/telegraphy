@@ -121,6 +121,23 @@ app.use(express.static(path.join(__dirname, "assets")));
 */
 
 app.get("/", function (req, res) {
+    res.render("main");
+});
+
+/*
+    This URL is used to test the the Arduino is working correctly.
+*/
+
+app.get("/notify", function (req, res) {
+    notifier.sendAlert(req.query.msg || "New email received");
+    res.redirect("/");
+});
+
+/*
+    This URL is used to create or edit accounts.
+*/
+
+app.get("/accounts", function (req, res) {
 
     configs.readConfigs(function (accounts) {
 
@@ -137,7 +154,7 @@ app.get("/", function (req, res) {
             Render the accounts in the main HTML page.
         */
 
-        res.render("main", {accounts: accounts});
+        res.render("accounts", {accounts: accounts});
     });
 });
 
@@ -159,7 +176,7 @@ app.post("/save", function (req, res) {
         });
     }
 
-    res.redirect("/");
+    res.redirect("/accounts");
 });
 
 /*
@@ -168,16 +185,7 @@ app.post("/save", function (req, res) {
 
 app.get("/check", function (req, res) {
     checker.check();
-    res.redirect("/");
-});
-
-/*
-    This URL is used to test the the Arduino is working correctly.
-*/
-
-app.get("/notify", function (req, res) {
-    notifier.sendAlert(req.query.msg || "New email received");
-    res.redirect("/");
+    res.redirect("/accounts");
 });
 
 /*

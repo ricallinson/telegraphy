@@ -21,10 +21,6 @@ You must have [Node](http://nodejs.org/) and [npm](https://npmjs.org/) installed
 
 Once running open [http://127.0.0.1:8080/](http://127.0.0.1:8080/) in a browser.
 
-## Links
-
-* For some Arduino clones you may be required to install [FTDI Drivers](http://www.ftdichip.com/Drivers/VCP.htm).
-
 ## Setup Raspberry PI
 
 If you want to run _Telegraphy_ on a Raspberry PI this is the quickest way to get going.
@@ -67,3 +63,6 @@ You can undo this by running...
 
     update-rc.d -f telegraphy remove
 
+## Links
+
+* For some Arduino clones you may be required to install [FTDI Drivers](http://www.ftdichip.com/Drivers/VCP.htm).

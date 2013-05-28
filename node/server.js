@@ -134,7 +134,7 @@ notifier.listAllPorts(function (ports) {
 configs.root = path.join(__dirname, "cfg");
 
 /*
-    assign the swig engine to .html files.
+    assign the handlebars engine to .html files.
 */
 
 app.engine('html', consolidate.handlebars);

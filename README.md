@@ -17,7 +17,7 @@ You must have [Node](http://nodejs.org/) and [npm](https://npmjs.org/) installed
 
     cd ./node
     npm install
-    node server.js -s <serial-port>
+    npm start
 
 Once running open [http://127.0.0.1:8080/](http://127.0.0.1:8080/) in a browser.
 
@@ -55,8 +55,6 @@ If you want to run _Telegraphy_ on a Raspberry PI this is the quickest way to ge
 ### Start the server
 
     /usr/bin/nodejs server.js
-    <serialport>
-    /usr/bin/nodejs server.js -s <serialport>
 
 ### Run at boot time
 

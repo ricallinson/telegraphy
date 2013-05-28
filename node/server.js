@@ -36,6 +36,31 @@ var program = require("commander"),
     port = 8080;
 
 /*
+    Returns the first IPv4 external address found.
+*/
+
+function getIpAddress () {
+
+    var os=require('os'),
+        ifaces=os.networkInterfaces(),
+        device,
+        current,
+        details;
+
+    for (device in ifaces) {
+
+        for (current in ifaces[device]) {
+
+            details = ifaces[device][current];
+
+            if (details.family=='IPv4' && details.internal === false) {
+                return details.address;
+            }
+        }
+    }
+}
+
+/*
     Get the command line inputs
 */
 
@@ -215,7 +240,7 @@ app.listen(port);
     Log that the application has started.
 */
 
-console.log("Started on http://127.0.0.1:" + port + "/");
+console.log("Started on http://" + getIpAddress() + ":" + port + "/");
 
 /*
     With the web application running we now check for mail every n minutes.

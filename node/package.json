@@ -13,7 +13,7 @@
         "express": "*",
         "consolidate": "*",
         "handlebars": "*",
-        "imap": "*",
+        "imap": "0.7.8",
         "serialport": "*",
         "commander": "*"
     },

@@ -136,12 +136,6 @@ exports.check = function () {
                     configs.saveConfig(account, function (err) {
 
                         /*
-                            Local var for fetching the most recent email.
-                        */
-
-                        var fetch;
-
-                        /*
                             If there was an error logout and return.
                         */
 
@@ -154,64 +148,71 @@ exports.check = function () {
                         /*
                             Get the subject of the most recent email.
                         */
-                            
-                        fetch = imap.seq.fetch(
-                            mailbox.messages.total + ':*', {
-                                request: {
-                                    headers: ['subject'],
-                                    body: false,
-                                    struct: false
+
+                        imap.seq.fetch(
+                            mailbox.messages.total + ':*',
+                            {},
+                            {
+                                headers: ['subject'],
+                                body: false,
+                                cb: function (fetch) {
+
+                                    /*
+                                        Listen for the message fetch to arrive.
+                                    */
+
+                                    fetch.on('message', function (msg) {
+
+                                        /*
+                                            Listen for the end of the actual message.
+                                        */
+
+                                        msg.on('end', function () {
+
+                                            /*
+                                                Set the default alert text.
+                                            */
+
+                                            var text = "New mail";
+
+                                            /*
+                                                Only use the subject for the alert text if one is found.
+                                            */
+
+                                            if (msg.headers && msg.headers.subject && msg.headers.subject.length) {
+                                                text = msg.headers.subject[0];
+                                            }
+
+                                            /*
+                                                Now tell the notifier to send an alert.
+                                            */
+
+                                            notifier.sendAlert(text);
+                                        });
+                                            
+                                    });
+
+                                    /*
+                                        Listen for the end of the message fetch.
+                                    */
+
+                                    fetch.on('end', function () {
+
+                                        /*
+                                            With all our work done we can now logout of the IMAP account.
+                                        */
+
+                                        imap.logout();
+                                    });
                                 }
+                            }, function(err) {
+                                if (err) {
+                                    console.log('Error fetching all messages!');
+                                }
+                                console.log('Done fetching all messages!');
+                                imap.logout();
                             }
                         );
-
-                        /*
-                            Listen for the message fetch to arrive.
-                        */
-
-                        fetch.on('message', function (msg) {
-
-                            /*
-                                Listen for the end of the actual message.
-                            */
-
-                            msg.on('end', function() {
-
-                                /*
-                                    Set the default alert text.
-                                */
-
-                                var text = "New mail";
-
-                                /*
-                                    Only use the subject for the alert text if one is found.
-                                */
-
-                                if (msg.headers && msg.headers.subject && msg.headers.subject.length) {
-                                    text = msg.headers.subject[0];
-                                }
-
-                                /*
-                                    Now tell the notifier to send an alert.
-                                */
-
-                                notifier.sendAlert(text);
-                            });
-                                
-                        });
-
-                        /*
-                            Listen for the end of the message fetch.
-                        */
-
-                        fetch.on('end', function () {
-
-                            /*
-                                With all our work done we can now logout of the IMAP account.
-                            */
-
-                            imap.logout();
-                        });
                     });
                 });
             });

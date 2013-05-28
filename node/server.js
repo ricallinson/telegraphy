@@ -41,49 +41,66 @@ var program = require("commander"),
 
 program
     .version('0.0.1')
-    .option('-s, --serial-port [port]', 'The serial port to use', null)
+    .option('-l, --list-serial-ports', 'List the available serial ports', null)
+    .option('-s, --serial-port [port]', 'Force the serial port to use', null)
     .option('-i, --interval [minutes]', 'The number of minutes between checks', 5)
     .parse(process.argv);
 
 /*
-    We cannot do anyhting without a serial port so it's the first thing we check.
+    If asked list all the available serial ports and exit.
 */
 
-if (program.serialPort) {
-
-    /*
-        If we were given a serial port set it in the "notifier".
-    */
-
-    notifier.port = program.serialPort;
-
-    /*
-        Open the serial port for ready later use.
-    */
-
-    notifier.openPort(function () {
-
-        /*
-            We don't wait for the callback as it will be not be used instantly.
-            It's assumed th port will be open and ready by the time it's required.
-        */
-
-        console.log("Opened connection on port: " + notifier.port);
-    });
-
-} else {
-
-    /*
-        If we were not given a serial port, list the ones avaliable and exit.
-    */
-
-    notifier.listPorts(function (ports) {
+if (program.listSerialPorts) {
+    notifier.listAllPorts(function (ports) {
         ports.forEach(function (port) {
             console.log(port.comName);
         });
         process.exit(0);
     });
 }
+
+/*
+    We cannot do anything without a serial port so it's the first thing we check.
+*/
+
+notifier.listAllPorts(function (ports) {
+
+    var current;
+
+    if (program.serialPort) {
+
+        /*
+            If we were given a serial port set it in the "notifier".
+        */
+
+        notifier.ports = [program.serialPort];
+        
+    } else {
+
+        /*
+            If we were not given a serial port, attach all the ones available.
+        */
+
+        for (current in ports) {
+            notifier.ports.push(ports[current].comName);
+        }
+    }
+
+    /*
+        Open the serial ports ready for later use.
+    */
+
+    notifier.openPorts(function (ports) {
+
+        /*
+            We don't wait for the callback as it will be not be used instantly.
+            It's assumed the ports will be open and ready by the time it's required.
+        */
+
+        console.log("Usable ports opened");
+    });
+
+});
 
 /*
     Set the root location of the configuration files.
@@ -171,7 +188,7 @@ app.post("/save", function (req, res) {
             username: req.body.username,
             password: req.body.password,
             host: req.body.host,
-            port: req.body.port,
+            port: req.body.ports,
             secure: (req.body.secure === "true" ? "true" : "")
         });
     }

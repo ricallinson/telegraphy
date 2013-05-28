@@ -7,11 +7,11 @@ Telegraphy is a project that uses an [Arduino](http://www.arduino.cc/) microcont
     git clone git@github.com:ricallinson/telegraphy.git
     cd ./telegraphy
 
-### Arduino
+### 1. Arduino
 
-From within the Arduino IDE open the __./arduino/notifier/notifier.ino__ sketch. Make sure your Arduino board is connected and __Upload__ the sketch.
+From within the Arduino IDE open the __./arduino/notifier_morse_code/notifier_morse_code.ino__ sketch. Make sure your Arduino board is connected and __Upload__ the sketch.
 
-### Node
+### 2. Node
 
 You must have [Node](http://nodejs.org/) and [npm](https://npmjs.org/) installed to follow these steps.
 
@@ -23,18 +23,18 @@ Once running open [http://127.0.0.1:8080/](http://127.0.0.1:8080/) in a browser.
 
 ## Links
 
-* [FTDI Drivers](http://www.ftdichip.com/Drivers/VCP.htm)
+* For some Arduino clones you may be required to install [FTDI Drivers](http://www.ftdichip.com/Drivers/VCP.htm).
 
 ## Setup Raspberry PI
 
 If you want to run _Telegraphy_ on a Raspberry PI this is the quickest way to get going.
 
-### SSH
+### 1. SSH
 
     ssh <ip_address> -l pi
     password: raspberry
 
-### Update and install
+### 2. Update and install
 
     sudo apt-get update
     sudo apt-get install npm
@@ -43,7 +43,7 @@ If you want to run _Telegraphy_ on a Raspberry PI this is the quickest way to ge
     cd telegraphy/node
     npm i
 
-### Fix serialport package
+### 3. Fix serialport package
 
 	sudo npm install serialport@1.0.6
     cd node_modules/serialport
@@ -51,11 +51,11 @@ If you want to run _Telegraphy_ on a Raspberry PI this is the quickest way to ge
 	node_modules/node-gyp/bin/node-gyp.js build 
 	node_modules/node-gyp/bin/node-gyp.js install
 
-### Start the server
+### 4. Start the server
 
     /usr/bin/nodejs server.js
 
-### Run at boot time
+### 5. Run at boot time
 
 To run _Telegraphy_ at boot time you need to copy the startup script to the correct location and then restart the Raspberry PI.
 

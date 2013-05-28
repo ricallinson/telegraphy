@@ -42,7 +42,6 @@ If you want to run _Telegraphy_ on a Raspberry PI this is the quickest way to ge
     git clone https://github.com/ricallinson/telegraphy.git
     cd telegraphy/node
     npm i
-    mkdir cfg
 
 ### Fix serialport package
 

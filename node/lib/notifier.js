@@ -71,7 +71,7 @@ exports.openPorts = function (fn) {
 exports.openPort = function (fn, port) {
 
     /*
-        If the given port is not "usbserial" or "usbmodem" then skip it.
+        If the given port is not "usbserial", "usbmodem" or "ttyUSB" then skip it.
     */
 
     if (port.indexOf("usbserial") < 0 && port.indexOf("usbmodem") < 0 && port.indexOf("ttyUSB") < 0) {

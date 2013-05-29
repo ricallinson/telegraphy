@@ -30,28 +30,32 @@ If you want to run _Telegraphy_ on a Raspberry PI this is the quickest way to ge
     ssh <ip_address> -l pi
     password: raspberry
 
-### 2. Update and install
+### 2. Update and install required packages
 
     sudo apt-get update
     sudo apt-get install npm
+    sudo ln -s /usr/bin/nodejs /usr/bin/node
     sudo apt-get install git
+
+### 3. Clone the git project
+
     git clone https://github.com/ricallinson/telegraphy.git
     cd telegraphy/node
     npm i
 
-### 3. Fix serialport package
+### 4. Fix serialport package
 
-	sudo npm install serialport@1.0.6
+    sudo npm install serialport@1.0.6
     cd node_modules/serialport
-	node_modules/node-gyp/bin/node-gyp.js configure binding.gyp 
-	node_modules/node-gyp/bin/node-gyp.js build 
-	node_modules/node-gyp/bin/node-gyp.js install
+    node_modules/node-gyp/bin/node-gyp.js configure binding.gyp
+    node_modules/node-gyp/bin/node-gyp.js build
+    node_modules/node-gyp/bin/node-gyp.js install
 
-### 4. Start the server
+### 5. Start the server
 
-    /usr/bin/nodejs server.js
+    npm start
 
-### 5. Run at boot time
+### 6. Run at boot time
 
 To run _Telegraphy_ at boot time you need to copy the startup script to the correct location and then restart the Raspberry PI.
 

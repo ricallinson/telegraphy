@@ -108,7 +108,13 @@ exports.check = function () {
                         If there has been any new messages since the last check this
                         value will be different.
                     */
-account.uidnext = 0;
+
+                    /*
+                        Un-comment to force the reading of emails.
+                    */
+
+                    // account.uidnext = 0;
+
                     if (account.uidnext === mailbox.uidnext) {
 
                         /*

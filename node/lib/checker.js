@@ -108,7 +108,7 @@ exports.check = function () {
                         If there has been any new messages since the last check this
                         value will be different.
                     */
-
+account.uidnext = 0;
                     if (account.uidnext === mailbox.uidnext) {
 
                         /*
@@ -164,10 +164,10 @@ exports.check = function () {
                                     fetch.on('message', function (msg) {
 
                                         /*
-                                            Listen for the end of the actual message.
+                                            Listen for the headers of the message.
                                         */
 
-                                        msg.on('end', function () {
+                                        msg.on('headers', function(headers) {
 
                                             /*
                                                 Set the default alert text.
@@ -179,8 +179,8 @@ exports.check = function () {
                                                 Only use the subject for the alert text if one is found.
                                             */
 
-                                            if (msg.headers && msg.headers.subject && msg.headers.subject.length) {
-                                                text = msg.headers.subject[0];
+                                            if (headers.subject.length) {
+                                                text = headers.subject[0];
                                             }
 
                                             /*
@@ -191,25 +191,12 @@ exports.check = function () {
                                         });
                                             
                                     });
-
-                                    /*
-                                        Listen for the end of the message fetch.
-                                    */
-
-                                    fetch.on('end', function () {
-
-                                        /*
-                                            With all our work done we can now logout of the IMAP account.
-                                        */
-
-                                        imap.logout();
-                                    });
                                 }
                             }, function(err) {
                                 if (err) {
-                                    console.log('Error fetching all messages!');
+                                    console.log('Error fetching message!');
                                 }
-                                console.log('Done fetching all messages!');
+                                console.log('Finished fetching message.');
                                 imap.logout();
                             }
                         );

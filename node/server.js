@@ -249,3 +249,11 @@ console.log("Started on http://" + getIpAddress() + ":" + port + "/");
 setInterval(function () {
     checker.check();
 }, program.interval * 1000 * 60);
+
+/*
+    Check for new messages after 10 seconds.
+*/
+
+setTimeout(function () {
+    checker.check();
+}, 10000);

@@ -210,6 +210,7 @@ app.post("/save", function (req, res) {
         configs.deleteConfig(req.body.username);
     } else if (req.body.action === "Save") {
         configs.saveConfig({
+            type: "imap",
             username: req.body.username,
             password: req.body.password,
             host: req.body.host,

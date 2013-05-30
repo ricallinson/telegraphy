@@ -70,3 +70,37 @@ You can undo this by running...
 ## Links
 
 * For some Arduino clones you may be required to install [FTDI Drivers](http://www.ftdichip.com/Drivers/VCP.htm).
+
+## Setting up WiFi on Debain
+
+> sudo nano /etc/network/interfaces
+
+    auto lo
+
+    iface lo inet loopback
+    iface eth0 inet dhcp
+
+    allow-hotplug wlan0
+    auto wlan0
+    iface wlan0 inet manual
+    wpa-roam /etc/wpa_supplicant/wpa_supplicant.conf
+
+    iface default inet dhcp
+
+> sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
+
+    ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+    update_config=1
+
+    network={
+    ssid="SSID-GOES-HERE"
+    proto=RSN
+    key_mgmt=WPA-PSK
+    pairwise=CCMP TKIP
+    group=CCMP TKIP
+    psk="WIFI-PASSWORD-GOES-HERE"
+    }
+
+> sudo ifdown wlan0
+> sudo ifup wlan0
+> iwconfig

@@ -21,13 +21,16 @@
 //    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 //    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+
+"use strict";
+
 /*
     Load the modules required.
 */
 
 var program = require("commander"),
     express = require("express"),
-    consolidate = require('consolidate'),
+    consolidate = require("consolidate"),
     configs = require("./lib/configs"),
     checker = require("./lib/checker"),
     notifier = require("./lib/notifier"),
@@ -36,27 +39,40 @@ var program = require("commander"),
     port = 8080;
 
 /*
+    Get
+*/
+
+function doda(device) {
+
+    var current, details;
+
+    for (current in device) {
+
+        details = device[current];
+
+        if (details.family === "IPv4" && details.internal === false) {
+            return details.address;
+        }
+    }
+}
+
+/*
     Returns the first IPv4 external address found.
 */
 
-function getIpAddress () {
+function getIpAddress() {
 
-    var os=require('os'),
-        ifaces=os.networkInterfaces(),
+    var os = require("os"),
+        ifaces = os.networkInterfaces(),
         device,
-        current,
-        details;
+        address;
 
     for (device in ifaces) {
-
-        for (current in ifaces[device]) {
-
-            details = ifaces[device][current];
-
-            if (details.family=='IPv4' && details.internal === false) {
-                return details.address;
-            }
+        address = doda(ifaces[device]);
+        if (address) {
+            return address;
         }
+        
     }
 }
 
@@ -65,10 +81,10 @@ function getIpAddress () {
 */
 
 program
-    .version('0.0.1')
-    .option('-l, --list-serial-ports', 'List the available serial ports', null)
-    .option('-s, --serial-port [port]', 'Force the serial port to use', null)
-    .option('-i, --interval [minutes]', 'The number of minutes between checks', 5)
+    .version("0.0.1")
+    .option("-l, --list-serial-ports", "List the available serial ports", null)
+    .option("-s, --serial-port [port]", "Force the serial port to use", null)
+    .option("-i, --interval [minutes]", "The number of minutes between checks", 5)
     .parse(process.argv);
 
 /*
@@ -85,7 +101,7 @@ if (program.listSerialPorts) {
 }
 
 /*
-    We cannot do anything without a serial port so it's the first thing we check.
+    We cannot do anything without a serial port so it"s the first thing we check.
 */
 
 notifier.connect(program.serialPort);
@@ -100,14 +116,14 @@ configs.root = path.join(__dirname, "cfg");
     assign the handlebars engine to .html files.
 */
 
-app.engine('html', consolidate.handlebars);
+app.engine("html", consolidate.handlebars);
 
 /*
     set .html as the default extension.
 */
 
-app.set('view engine', 'html');
-app.set('views', path.join(__dirname, "views"));
+app.set("view engine", "html");
+app.set("views", path.join(__dirname, "views"));
 
 /*
     Use the connect bodyParser() to read the form values.

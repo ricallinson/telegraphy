@@ -21,12 +21,13 @@
 //    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 //    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+"use strict";
+
 /*
     Load the modules required.
 */
 
-var util = require('util'),
-    ImapConnection = require('imap').ImapConnection,
+var ImapConnection = require("imap").ImapConnection,
     configs = require("./configs"),
     notifier = require("./notifier"),
     path = require("path");
@@ -70,13 +71,13 @@ exports.check = function () {
                 Log each step so we can debug if something goes wrong.
             */
 
-            console.log("Checking imap account for mailbox '" + account.username + "' .");
+            console.log("Checking imap account for mailbox \"" + account.username + "\" .");
 
             /*
                 Typecast input values to be safe.
             */
 
-            account.port = parseInt(account.port);
+            account.port = parseInt(account.port, 10);
 
             if (typeof account.secure === "string") {
                 account.secure = account.secure === "true" ? true : false;
@@ -99,7 +100,7 @@ exports.check = function () {
                 */
 
                 if (err) {
-                    console.log("Error opening mailbox '" + account.username + "'; " + err);
+                    console.log("Error opening mailbox \"" + account.username + "\"; " + err);
                     return;
                 }
 
@@ -107,9 +108,15 @@ exports.check = function () {
                     With the IMAP connection we open the mail box to see if there is a change.
                 */
 
-                imap.openBox('INBOX', false, function (err, mailbox) {
+                imap.openBox("INBOX", false, function (err, mailbox) {
 
-                    console.log("Mailbox '" + account.username + "' opened.");
+                    if (err) {
+                        console.log("No action performed as there was an error opening the mailbox \"" + account.username + "\".");
+                        imap.logout();
+                        return;
+                    }
+
+                    console.log("Mailbox \"" + account.username + "\" opened.");
 
                     /*
                         To see if something has changed we look at the "uidnext"
@@ -132,7 +139,7 @@ exports.check = function () {
                             and we can logout of the IMAP account and return.
                         */
 
-                        console.log("No change at mailbox '" + account.username + "'.");
+                        console.log("No change at mailbox \"" + account.username + "\".");
                         imap.logout();
                         return;
                     }
@@ -143,7 +150,7 @@ exports.check = function () {
 
                     account.uidnext = mailbox.uidnext;
 
-                    console.log("Mailbox '" + account.username + "' had new mail.");
+                    console.log("Mailbox \"" + account.username + "\" had new mail.");
 
                     /*
                         Save the updated configuration.
@@ -156,7 +163,7 @@ exports.check = function () {
                         */
 
                         if (err) {
-                            console.log("Error saving configuration for mailbox '" + account.username + "'.");
+                            console.log("Error saving configuration for mailbox \"" + account.username + "\".");
                             imap.logout();
                             return;
                         }
@@ -166,10 +173,10 @@ exports.check = function () {
                         */
 
                         imap.seq.fetch(
-                            mailbox.messages.total + ':*',
+                            mailbox.messages.total + ":*",
                             {},
                             {
-                                headers: ['subject'],
+                                headers: ["subject"],
                                 body: false,
                                 cb: function (fetch) {
 
@@ -177,13 +184,13 @@ exports.check = function () {
                                         Listen for the message fetch to arrive.
                                     */
 
-                                    fetch.on('message', function (msg) {
+                                    fetch.on("message", function (msg) {
 
                                         /*
                                             Listen for the headers of the message.
                                         */
 
-                                        msg.on('headers', function(headers) {
+                                        msg.on("headers", function (headers) {
 
                                             /*
                                                 Set the default alert text.
@@ -208,11 +215,11 @@ exports.check = function () {
                                             
                                     });
                                 }
-                            }, function(err) {
+                            }, function (err) {
                                 if (err) {
-                                    console.log('Error fetching message!');
+                                    console.log("Error fetching message!");
                                 }
-                                console.log('Finished fetching message.');
+                                console.log("Finished fetching message.");
                                 imap.logout();
                             }
                         );

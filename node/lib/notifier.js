@@ -21,6 +21,8 @@
 //    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 //    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+"use strict";
+
 /*
     Load the modules required.
 */
@@ -41,6 +43,11 @@ exports.ports = [];
 
 exports.listAllPorts = function (fn) {
     require("serialport").list(function (err, ports) {
+        if (err) {
+            console.log("Error reading serial ports.");
+            fn({});
+            return;
+        }
         fn(ports);
     });
 };
@@ -52,6 +59,7 @@ exports.listAllPorts = function (fn) {
 exports.openPorts = function (fn) {
 
     var current,
+        end,
         self = this,
         count = this.ports.length;
 
@@ -60,15 +68,17 @@ exports.openPorts = function (fn) {
         return;
     }
 
+    end = function () {
+        count = count - 1;
+        if (count <= 0) {
+            fn();
+        }
+    };
+
     for (current in this.ports) {
-        this.openPort(self.ports[current], function () {
-            count = count - 1;
-            if (count <= 0) {
-                fn();
-            }
-        });
+        this.openPort(self.ports[current], end);
     }
-}
+};
 
 /*
     Open the given serial port.
@@ -100,7 +110,7 @@ exports.openPort = function (port, fn) {
             If there was an error we can do no more so return.
         */
 
-        if (err) {
+        if (err || typeof stats === "undefined") {
             console.log("Error finding port: " + port);
             fn();
             return;
@@ -128,6 +138,7 @@ exports.openPort = function (port, fn) {
 exports.closePorts = function (fn) {
 
     var current,
+        end,
         self = this,
         count = this.ports.length;
 
@@ -136,15 +147,17 @@ exports.closePorts = function (fn) {
         return;
     }
 
+    end = function () {
+        count = count - 1;
+        if (count <= 0) {
+            fn();
+        }
+    };
+
     for (current in this.ports) {
-        this.closePort(self.ports[current], function () {
-            count = count - 1;
-            if (count <= 0) {
-                fn();
-            }
-        });
+        this.closePort(self.ports[current], end);
     }
-}
+};
 
 /*
     Close the given serial port.
@@ -223,7 +236,7 @@ exports.connect = function (port, fn) {
 
             self.openPorts(fn);
         });
-    }); 
+    });
 };
 
 /*
@@ -283,7 +296,7 @@ exports.writeMsg = function (msg, port) {
 
     if (serialPort[port]) {
 
-        serialPort[port].write(msg, function (err, data) {
+        serialPort[port].write(msg, function (err) {
 
             /*
                 Log if this was a success or failure.

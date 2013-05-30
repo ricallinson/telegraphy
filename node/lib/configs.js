@@ -21,13 +21,15 @@
 //    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 //    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+"use strict";
+
 /*
     Load the modules required.
 */
 
 var fs = require("fs"),
     path = require("path"),
-    crypto = require('crypto'),
+    crypto = require("crypto"),
     SECRET = "xxx",
     EXT = ".cfg",
     REGEX_EXT = /.cfg$/;
@@ -37,9 +39,9 @@ var fs = require("fs"),
 */
 
 function encode(text, secret) {
-    var cipher = crypto.createCipher('aes-256-cbc', secret),
-        crypted = cipher.update(text,'utf8','hex');
-    crypted += cipher.final('hex');
+    var cipher = crypto.createCipher("aes-256-cbc", secret),
+        crypted = cipher.update(text, "utf8", "hex");
+    crypted += cipher.final("hex");
     return crypted;
 }
 
@@ -48,10 +50,10 @@ function encode(text, secret) {
 */
 
 function decode(text, secret) {
-    var decipher = crypto.createDecipher('aes-256-cbc', secret),
-        dec = decipher.update(text,'hex','utf8');
+    var decipher = crypto.createDecipher("aes-256-cbc", secret),
+        dec = decipher.update(text, "hex", "utf8");
     try {
-        dec += decipher.final('utf8');
+        dec += decipher.final("utf8");
         return dec;
     } catch (err) {
         return "{}";
@@ -148,6 +150,10 @@ exports.readConfigs = function (fn) {
 
         var configs = [];
 
+        if (err) {
+            console.log("No configuration files were loaded as there was an error reading the directory: " + exports.root);
+        }
+
         /*
             If there are no files in the folder set the list to an empty array.
         */
@@ -162,7 +168,8 @@ exports.readConfigs = function (fn) {
 
         list.forEach(function (filename) {
 
-            var cfg;
+            var cfg,
+                file;
 
             /*
                 Check that the file is one of our configuration files.

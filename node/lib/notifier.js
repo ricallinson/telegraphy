@@ -30,7 +30,7 @@ var SerialPort = require("serialport").SerialPort,
     serialPort = {};
 
 /*
-    The serial port to use.
+    The serial ports to use.
 */
 
 exports.ports = [];
@@ -52,15 +52,21 @@ exports.listAllPorts = function (fn) {
 exports.openPorts = function (fn) {
 
     var current,
-        count = exports.ports.length;
+        self = this,
+        count = this.ports.length;
 
-    for (current in exports.ports) {
-        this.openPort(function () {
+    if (count === 0) {
+        fn();
+        return;
+    }
+
+    for (current in this.ports) {
+        this.openPort(self.ports[current], function () {
             count = count - 1;
             if (count <= 0) {
-                fn(exports.ports);
+                fn();
             }
-        }, exports.ports[current]);
+        });
     }
 }
 
@@ -68,7 +74,7 @@ exports.openPorts = function (fn) {
     Open the given serial port.
 */
 
-exports.openPort = function (fn, port) {
+exports.openPort = function (port, fn) {
 
     /*
         If the given port is not "usbserial", "usbmodem" or "ttyUSB" then skip it.
@@ -122,15 +128,21 @@ exports.openPort = function (fn, port) {
 exports.closePorts = function (fn) {
 
     var current,
-        count = exports.ports.length;
+        self = this,
+        count = this.ports.length;
 
-    for (current in exports.ports) {
-        this.closePort(function () {
+    if (count === 0) {
+        fn();
+        return;
+    }
+
+    for (current in this.ports) {
+        this.closePort(self.ports[current], function () {
             count = count - 1;
             if (count <= 0) {
-                fn(exports.ports);
+                fn();
             }
-        }, exports.ports[current]);
+        });
     }
 }
 
@@ -138,21 +150,84 @@ exports.closePorts = function (fn) {
     Close the given serial port.
 */
 
-exports.closePort = function (fn, port) {
+exports.closePort = function (port, fn) {
 
-    /*
-        If there is no more data to write we can close the connection.
-    */
+    if (!serialPort[port]) {
+        fn();
+        return;
+    }
 
-    serialPort[port].close(function () {
+    console.log("Closing port " + port);
+
+    serialPort[port].on("close", function () {
         console.log("Closed connection on port: " + port);
         delete serialPort[port];
         fn();
     });
+
+    serialPort[port].close();
 };
 
 /*
-    Trigger the Arduino to sound an alert.
+    Connect to all ports found.
+*/
+
+exports.connect = function (port, fn) {
+
+    var self = this;
+
+    if (!fn) {
+        fn = function () {
+            console.log("Usable ports opened");
+        };
+    }
+
+    /*
+        First, if we have any ports, close them.
+    */
+
+    this.closePorts(function () {
+
+        /*
+            Now get a list of all the ports and then try and connect them.
+        */
+
+        self.listAllPorts(function (ports) {
+
+            var current;
+
+            if (port) {
+
+                /*
+                    If we were given a serial port set it in the "notifier".
+                */
+
+                self.ports = [port];
+                
+            } else {
+
+                /*
+                    If we were not given a serial port, attach all the ones available.
+                */
+
+                self.ports = [];
+
+                for (current in ports) {
+                    self.ports.push(ports[current].comName);
+                }
+            }
+
+            /*
+                Open the serial ports.
+            */
+
+            self.openPorts(fn);
+        });
+    }); 
+};
+
+/*
+    Trigger the Arduino with an alert.
 */
 
 exports.sendAlert = function (msg) {
@@ -169,56 +244,56 @@ exports.sendAlert = function (msg) {
         port = this.ports[current];
 
         /*
-            If there is no serial port return with error.
+            Set a default message for the alert if one is not given.
         */
-        if (serialPort[port]) {
 
-            /*
-                Set a default message for the alert if one is not given.
-            */
-
-            if (!msg) {
-                msg = "Alert";
-            }
-
-            /*
-                Make sure the message is uppercase and is only A-Z or spaces.
-            */
-
-            msg = msg.toUpperCase().replace(/[^A-Z ]/g, " ");
-
-            /*
-                Log that we are going to try and send a message.
-            */
-
-            console.log("Sending alert message '" + msg + "' on port: " + port);
-
-            /*
-                Now the port is open we write the message.
-                This will tell the Arduino to run it's alert sequence.
-            */
-
-            this.writeAlert(msg, port);
+        if (!msg) {
+            msg = "Alert";
         }
+
+        /*
+            Make sure the message is uppercase and is only A-Z or spaces.
+        */
+
+        msg = msg.toUpperCase().replace(/[^A-Z ]/g, " ");
+
+        /*
+            Log that we are going to try and send a message.
+        */
+
+        console.log("Sending alert message '" + msg + "' on port: " + port);
+
+        /*
+            Write the given msg to the given port.
+        */
+
+        this.writeMsg(msg, port);
     }
 };
 
 /*
-    Write the given msg to the given port.
+    Send the message to the device on the given port.
 */
 
-exports.writeAlert = function (msg, port) {
+exports.writeMsg = function (msg, port) {
 
-    serialPort[port].write(msg, function (err, data) {
+    /*
+        If there is no serial port do nothing.
+    */
 
-        /*
-            Log if this was a success or failure.
-        */
+    if (serialPort[port]) {
 
-        if (err) {
-            console.log("Error sending alert on port: " + port);
-        } else {
-            console.log("Alert sent successfully on port: " + port);
-        }
-    });
+        serialPort[port].write(msg, function (err, data) {
+
+            /*
+                Log if this was a success or failure.
+            */
+
+            if (err) {
+                console.log("Error sending alert on port: " + port);
+            } else {
+                console.log("Alert sent successfully on port: " + port);
+            }
+        });
+    }
 };

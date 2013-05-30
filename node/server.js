@@ -88,44 +88,7 @@ if (program.listSerialPorts) {
     We cannot do anything without a serial port so it's the first thing we check.
 */
 
-notifier.listAllPorts(function (ports) {
-
-    var current;
-
-    if (program.serialPort) {
-
-        /*
-            If we were given a serial port set it in the "notifier".
-        */
-
-        notifier.ports = [program.serialPort];
-        
-    } else {
-
-        /*
-            If we were not given a serial port, attach all the ones available.
-        */
-
-        for (current in ports) {
-            notifier.ports.push(ports[current].comName);
-        }
-    }
-
-    /*
-        Open the serial ports ready for later use.
-    */
-
-    notifier.openPorts(function (ports) {
-
-        /*
-            We don't wait for the callback as it will be not be used instantly.
-            It's assumed the ports will be open and ready by the time it's required.
-        */
-
-        console.log("Usable ports opened");
-    });
-
-});
+notifier.connect(program.serialPort);
 
 /*
     Set the root location of the configuration files.
@@ -229,6 +192,15 @@ app.post("/save", function (req, res) {
 app.get("/check", function (req, res) {
     checker.check();
     res.redirect("/accounts");
+});
+
+/*
+    This URL is used to re-connect each Arduino.
+*/
+
+app.get("/reset", function (req, res) {
+    notifier.connect(program.serialPort);
+    res.redirect("/");
 });
 
 /*

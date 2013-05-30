@@ -37,7 +37,7 @@ Update Debain and install git.
     sudo apt-get update
     sudo apt-get install git
 
-Install the latest version of Nodejs (https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager#debian-lmde). Note: this takes over an hour on the Raspberry PI!
+Install the latest version of Nodejs (https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager#debian-lmde). Note: this takes over 2 hours on the Raspberry PI!
 
     sudo apt-get install python g++ make checkinstall
     mkdir ~/src && cd $_

@@ -27,22 +27,13 @@
     Load the modules required.
 */
 
-var ImapConnection = require("imap").ImapConnection,
-    configs = require("./configs"),
-    notifier = require("./notifier"),
-    path = require("path");
-
-/*
-    Set the root location of the configuration files.
-*/
-
-configs.root = path.join(__dirname, "cfg");
+var ImapConnection = require("imap").ImapConnection;
 
 /*
     Check each account for new messages.
 */
 
-exports.check = function () {
+exports.check = function (configs, notifier) {
 
     console.log("Opening configuration files to check.");
 

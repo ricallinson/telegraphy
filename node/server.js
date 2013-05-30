@@ -32,8 +32,8 @@ var program = require("commander"),
     express = require("express"),
     consolidate = require("consolidate"),
     configs = require("./lib/configs"),
-    checker = require("./lib/checker"),
     notifier = require("./lib/notifier"),
+    checker = require("./lib/checker"),
     utils = require("./lib/utils"),
     path = require("path"),
     app = express(),
@@ -169,7 +169,7 @@ app.post("/save", function (req, res) {
 */
 
 app.get("/check", function (req, res) {
-    checker.check();
+    checker.check(configs, notifier);
     res.redirect("/accounts");
 });
 
@@ -199,7 +199,7 @@ console.log("Started on http://" + utils.getIpAddress() + ":" + port + "/");
 */
 
 setInterval(function () {
-    checker.check();
+    checker.check(configs, notifier);
 }, program.interval * 1000 * 60);
 
 /*
@@ -207,5 +207,5 @@ setInterval(function () {
 */
 
 setTimeout(function () {
-    checker.check();
+    checker.check(configs, notifier);
 }, 10000);

@@ -34,46 +34,10 @@ var program = require("commander"),
     configs = require("./lib/configs"),
     checker = require("./lib/checker"),
     notifier = require("./lib/notifier"),
+    utils = require("./lib/utils"),
     path = require("path"),
     app = express(),
     port = 8080;
-
-/*
-    Returns the first IPv4 External address found in the given device array.
-*/
-
-function getExternalIpv4Address(device) {
-
-    var current, details;
-
-    for (current in device) {
-
-        details = device[current];
-
-        if (details.family === "IPv4" && details.internal === false) {
-            return details.address;
-        }
-    }
-}
-
-/*
-    Returns the first external IP address found in the network interfaces.
-*/
-
-function getIpAddress() {
-
-    var os = require("os"),
-        ifaces = os.networkInterfaces(),
-        device,
-        address;
-
-    for (device in ifaces) {
-        address = getExternalIpv4Address(ifaces[device]);
-        if (address) {
-            return address;
-        }
-    }
-}
 
 /*
     Get the command line inputs
@@ -228,7 +192,7 @@ app.listen(port);
     Log that the application has started.
 */
 
-console.log("Started on http://" + getIpAddress() + ":" + port + "/");
+console.log("Started on http://" + utils.getIpAddress() + ":" + port + "/");
 
 /*
     With the web application running we now check for mail every n minutes.

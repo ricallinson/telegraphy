@@ -102,5 +102,7 @@ You can undo this by running...
     }
 
 > sudo ifdown wlan0
+
 > sudo ifup wlan0
+
 > iwconfig

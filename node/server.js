@@ -39,10 +39,10 @@ var program = require("commander"),
     port = 8080;
 
 /*
-    Get
+    Returns the first IPv4 External address found in the given device array.
 */
 
-function doda(device) {
+function getExternalIpv4Address(device) {
 
     var current, details;
 
@@ -57,7 +57,7 @@ function doda(device) {
 }
 
 /*
-    Returns the first IPv4 external address found.
+    Returns the first external IP address found in the network interfaces.
 */
 
 function getIpAddress() {
@@ -68,11 +68,10 @@ function getIpAddress() {
         address;
 
     for (device in ifaces) {
-        address = doda(ifaces[device]);
+        address = getExternalIpv4Address(ifaces[device]);
         if (address) {
             return address;
         }
-        
     }
 }
 

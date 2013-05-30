@@ -32,6 +32,8 @@ If you want to run _Telegraphy_ on a Raspberry PI this is the quickest way to ge
 
 ### 2. Update and install required packages
 
+5/30/2013: This installs node 0.6.19 which seems to have a problem with SSL after running _apt-get upgrade_.
+
     sudo apt-get update
     sudo apt-get install npm
     sudo ln -s /usr/bin/nodejs /usr/bin/node

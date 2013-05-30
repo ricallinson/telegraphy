@@ -214,7 +214,7 @@ app.post("/save", function (req, res) {
             username: req.body.username,
             password: req.body.password,
             host: req.body.host,
-            port: req.body.ports,
+            port: req.body.port,
             secure: (req.body.secure === "true" ? "true" : "")
         });
     }

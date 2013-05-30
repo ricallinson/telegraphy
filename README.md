@@ -32,12 +32,28 @@ If you want to run _Telegraphy_ on a Raspberry PI this is the quickest way to ge
 
 ### 2. Update and install required packages
 
-5/30/2013: This installs node 0.6.19 which seems to have a problem with SSL after running _apt-get upgrade_.
+Update Debain and install git.
 
     sudo apt-get update
-    sudo apt-get install npm
-    sudo ln -s /usr/bin/nodejs /usr/bin/node
     sudo apt-get install git
+
+Install the latest version of Nodejs (https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager#debian-lmde). Note: this takes over an hour on the Raspberry PI!
+
+    sudo apt-get install python g++ make checkinstall
+    mkdir ~/src && cd $_
+    wget -N http://nodejs.org/dist/node-latest.tar.gz
+    tar xzvf node-latest.tar.gz && cd node-v*
+    ./configure
+    checkinstall #(remove the "v" in front of the version number in the dialog)
+    sudo dpkg -i node_*
+<!--
+5/30/2013: This installs node 0.6.19 which seems to have a problem with SSL after running _apt-get upgrade_.
+
+    sudo apt-get install npm
+-->
+Finally symlink _nodejs_ to _node_.
+
+    sudo ln -s /usr/bin/nodejs /usr/bin/node
 
 ### 3. Clone the git project
 

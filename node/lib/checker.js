@@ -73,6 +73,16 @@ exports.check = function () {
             console.log("Checking imap account for mailbox '" + account.username + "' .");
 
             /*
+                Typecast input values to be safe.
+            */
+
+            account.port = parseInt(account.port);
+
+            if (typeof account.secure === "string") {
+                account.secure = account.secure === "true" ? true : false;
+            }
+
+            /*
                 Create an IMAP connection for the account.
             */
 

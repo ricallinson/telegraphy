@@ -89,7 +89,7 @@ exports.saveConfig = function (cfg, fn) {
     */
 
     if (!cfg.username) {
-        console.log("Error saving as no username was given: " + filename);
+        console.log("Error saving as no username was given for configuration file: " + filename);
         fn(false);
         return;
     }
@@ -100,11 +100,11 @@ exports.saveConfig = function (cfg, fn) {
 
     fs.writeFile(filename, file, "utf8", function (err) {
         if (err) {
-            console.log("Error saving: " + filename);
+            console.log("Error saving configuration file: " + filename);
             fn(true);
             return;
         }
-        console.log("Successfully saved: " + filename);
+        console.log("Successfully saved configuration: " + filename);
         fn(false);
     });
 };
@@ -131,10 +131,10 @@ exports.deleteConfig = function (username, fn) {
 
     fs.unlink(filename, function (err) {
         if (err) {
-            console.log("Error deleting: " + filename);
+            console.log("Error deleting configuration file: " + filename);
             fn(true);
         }
-        console.log("Successfully deleted: " + filename);
+        console.log("Successfully deleted configuration file: " + filename);
         fn(false);
     });
 };

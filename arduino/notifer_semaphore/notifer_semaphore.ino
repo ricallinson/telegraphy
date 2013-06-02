@@ -30,22 +30,34 @@
 Servo flagA;
 
 /*
+    Flag 1 trim
+*/
+
+int trimFlagA = 12;
+
+/*
     Flag 2
 */
 
 Servo flagB;
 
 /*
+    Flag 1 trim
+*/
+
+int trimFlagB = -20;
+
+/*
     Servo position MIN value
 */
 
-const int MIN = 23;
+const int MIN = 0;
 
 /*
     Servo position MAX value
 */
 
-const int MAX = 330;
+const int MAX = 180;
 
 /*
     The time in ms for a single morse code UNIT.
@@ -163,8 +175,8 @@ void semaphore(int letter) {
             Convert the input char to a semaphore
         */
 
-        flagA.write(map(CODES[pos][0], 0, 360, MIN, MAX));
-        flagB.write(map(CODES[pos][1], 0, 360, MIN, MAX));
+        flagA.write(map(CODES[pos][0], 0, 180, MIN + trimFlagA, MAX + trimFlagA));
+        flagB.write(map(180 - CODES[pos][1], 0, 180, MIN + trimFlagB, MAX + trimFlagB));
 
         delay(UNIT * 3);
 
@@ -179,8 +191,8 @@ void semaphore(int letter) {
         Always reast after a char.
     */
 
-    flagA.write(map(0, 0, 360, MIN, MAX));
-    flagB.write(map(0, 0, 360, MIN, MAX));
+    flagA.write(map(0, 0, 180, MIN + trimFlagA, MAX + trimFlagA));
+    flagB.write(map(360, 0, 180, MIN + trimFlagB, MAX + trimFlagB));
 
     delay(UNIT * 1);
 }

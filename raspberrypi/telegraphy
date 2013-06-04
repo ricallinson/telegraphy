@@ -9,7 +9,7 @@
 case "$1" in
   start)
     echo "Starting Telegraphy"
-    /usr/bin/nodejs /home/pi/telegraphy/node/server.js -i 1
+    /usr/bin/nodejs /home/pi/telegraphy/node/server.js -i 1 >> /home/pi/telegraphy/node/logs.txt
     ;;
   stop)
     echo "Stopping Telegraphy"

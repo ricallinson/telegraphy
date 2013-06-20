@@ -1,2 +1,0 @@
-node ./node_modules/.bin/jshint --verbose ./server.js
-node ./node_modules/.bin/jshint --verbose ./lib/

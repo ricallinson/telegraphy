@@ -19,14 +19,15 @@
     },
     "devDependencies" : {
         "jshint": "*",
-        "mocha": "*"
+        "mocha": "*",
+        "istanbul": "*"
     },
     "repository": {
         "type": "git",
         "url": "git@github.com:ricallinson/telegraphy.git"
     },
     "scripts": {
-        "test": "mocha ./test"
+        "test": "./test/run"
     },
     "license": "MIT"
 }

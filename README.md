@@ -13,7 +13,7 @@ From within the Arduino IDE open the __./arduino/notifier_morse_code/notifier_mo
 
 ### 2. Node
 
-You must have [Node](http://nodejs.org/) and [npm](https://npmjs.org/) installed to follow these steps.
+You must have [Node](http://nodejs.org/) and [npm](https://npmjs.org/) installed to follow these steps. Should you get an install error check the [node-serialport install guide](https://github.com/voodootikigod/node-serialport#to-install) to make sure you have the prerequisites to compile ANY native module for Node.js.
 
     cd ./node
     npm install

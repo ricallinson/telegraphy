@@ -36,11 +36,33 @@
             <p>Hook up your email accounts to <b>Telegraphy</b> then sit back and watch up to the minute notifications flash before your eyes.</p>
             <p>
                 <form  action="/notify" method="GET" class="form-inline">
-                    <input type="text" placeholder="New email received" name="msg" class="input-medium">
+                    <input type="text" placeholder="Type message" name="msg" class="input-medium">
                     <button type="submit" class="btn btn-primary">Send</button>
                 </form>
             </p>
+            <!--
+            <div class="btn-group btn-group-vertical">
+                <button class="btn"><a href="#">One would like a cup of tea please</a></button>
+            </div>
+            -->
         </div>
+
+        <p>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Canned Messages</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#messages}}
+                    <tr>
+                        <td><a href="/notify?msg={{.}}">{{.}}</a></td>
+                    </tr>
+                    {{/messages}}
+                <tbody>
+            </table>
+        </p>
 
         <div class="footer">
             <a class="btn" href="https://github.com/ricallinson/telegraphy">Get the source</a>

@@ -47,7 +47,7 @@ program
     .version("0.0.1")
     .option("-l, --list-serial-ports", "List the available serial ports", null)
     .option("-s, --serial-port [port]", "Force the serial port to use", null)
-    .option("-i, --interval [minutes]", "The number of minutes between checks", 5)
+    .option("-i, --interval [minutes]", "The number of minutes between checks", 1)
     .parse(process.argv);
 
 /*
@@ -105,7 +105,15 @@ app.use(express.static(path.join(__dirname, "assets")));
 */
 
 app.get("/", function (req, res) {
-    res.render("main");
+
+    var messages = [
+        "Be there in two minutes",
+        "Come quick it is working",
+        "Can I have a cup of tea",
+        "Have you seen my glasses"
+    ];
+
+    res.render("main", {messages: messages});
 });
 
 /*
@@ -113,7 +121,7 @@ app.get("/", function (req, res) {
 */
 
 app.get("/notify", function (req, res) {
-    notifier.sendAlert(req.query.msg || "New email received");
+    notifier.sendAlert(req.query.msg || "Testing");
     res.redirect("/");
 });
 

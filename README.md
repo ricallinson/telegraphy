@@ -54,11 +54,12 @@ Finally symlink _nodejs_ to _node_.
 
     sudo ln -s /usr/bin/nodejs /usr/bin/node
 
-### 3. Clone the git project
+### 3. Clone the git project and install it
 
     git clone https://github.com/ricallinson/telegraphy.git
     cd telegraphy/node
     npm i
+    sudo npm i forever -g
 
 ### 4. Fix serialport package
 
@@ -70,19 +71,7 @@ Finally symlink _nodejs_ to _node_.
 
 ### 5. Start the server
 
-    npm start
-
-### 6. Run at boot time
-
-To run _Telegraphy_ at boot time you need to copy the startup script to the correct location and then restart the Raspberry PI.
-
-    sudo cp ~/telegraphy/raspberrypi/telegraphy /etc/init.d/telegraphy
-    sudo update-rc.d telegraphy defaults
-    sudo init 6
-
-You can undo this by running...
-
-    update-rc.d -f telegraphy remove
+    forever start server.js
 
 ## Links
 

@@ -31,7 +31,7 @@ const int EMPTY = 0;
 const int START = 7;
 const int END = -6;
 
-int color = (uint32_t)0x000F00; // RRGGBB
+uint32_t color = (uint32_t)0x000F00; // RRGGBB
 
 /*
     Words.

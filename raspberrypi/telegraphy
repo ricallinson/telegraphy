@@ -6,11 +6,11 @@
 case "$1" in
   start)
     echo "Starting Telegraphy"
-    forever start /home/pi/telegraphy/node/server.js
+    su - pi -c "forever start /home/pi/telegraphy/node/server.js"
     ;;
   stop)
     echo "Stopping Telegraphy"
-    forever stop /home/pi/telegraphy/node/server.js
+    su - pi -c "forever stop /home/pi/telegraphy/node/server.js"
     ;;
   *)
     echo "Usage: /etc/init.d/telegraphy {start|stop}"

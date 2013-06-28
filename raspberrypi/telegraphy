@@ -10,7 +10,7 @@ case "$1" in
     ;;
   stop)
     echo "Stopping Telegraphy"
-    forever stop 0
+    forever stop /home/pi/telegraphy/node/server.js
     ;;
   *)
     echo "Usage: /etc/init.d/telegraphy {start|stop}"

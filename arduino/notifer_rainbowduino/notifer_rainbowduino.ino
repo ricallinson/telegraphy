@@ -31,7 +31,7 @@ const int EMPTY = 0;
 const int START = 7;
 const int END = -6;
 
-uint32_t color = (uint32_t)0x000F00; // RRGGBB
+uint32_t color = (uint32_t)0x00FF00; // RRGGBB
 
 /*
     Words.
@@ -59,7 +59,7 @@ void pins() {
     Words.
 */
 
-void tmp() {
+void render() {
 
     if (buffer[0][1] == END) {
         buffer[0][0] = EMPTY;
@@ -122,5 +122,5 @@ void loop() {
         }
     }
 
-    tmp();
+    render();
 }

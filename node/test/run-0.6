@@ -1,0 +1,13 @@
+echo $(node -v)
+
+if [ $(node -v) != "v0.6.21" ]
+  then
+    exit 0
+fi
+
+sudo npm install serialport@1.0.6
+cd node_modules/serialport
+node_modules/node-gyp/bin/node-gyp.js configure binding.gyp
+node_modules/node-gyp/bin/node-gyp.js build
+node_modules/node-gyp/bin/node-gyp.js install
+cd ../../

@@ -1,0 +1,21 @@
+#! /bin/sh
+# /etc/init.d/telegraphy
+#
+
+# Carry out specific functions when asked to by the system
+case "$1" in
+  start)
+    echo "Starting Telegraphy"
+    forever /home/pi/telegraphy/node/server.js
+    ;;
+  stop)
+    echo "Stopping Telegraphy"
+    forever stop 0
+    ;;
+  *)
+    echo "Usage: /etc/init.d/telegraphy {start|stop}"
+    exit 1
+    ;;
+esac
+
+exit 0

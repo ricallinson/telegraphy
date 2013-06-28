@@ -2,18 +2,26 @@
 # /etc/init.d/telegraphy
 #
 
+# Setup vars
+
+TELEGRAPHY=/home/pi/telegraphy/node/server.js
+
 # Carry out specific functions when asked to by the system
 case "$1" in
   start)
     echo "Starting Telegraphy"
-    su - pi -c "forever start /home/pi/telegraphy/node/server.js"
+    su - pi -c "forever start $TELEGRAPHY"
+    ;;
+  restart)
+    echo "Restarting Telegraphy"
+    su - pi -c "forever restart $TELEGRAPHY"
     ;;
   stop)
     echo "Stopping Telegraphy"
-    su - pi -c "forever stop /home/pi/telegraphy/node/server.js"
+    su - pi -c "forever stop $TELEGRAPHY"
     ;;
   *)
-    echo "Usage: /etc/init.d/telegraphy {start|stop}"
+    echo "Usage: /etc/init.d/telegraphy {start|restart|stop}"
     exit 1
     ;;
 esac

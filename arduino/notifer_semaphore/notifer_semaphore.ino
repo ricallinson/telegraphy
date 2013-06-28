@@ -127,8 +127,8 @@ void toSemaphore(char *message, int length) {
 }
 
 /*
-  Takes the given ASCII code and converts it to international morse code
-  output by setting the given pin to HIGH and LOW accordingly.
+  Takes the given ASCII code and converts it to international flag semaphore
+  output by setting the appropriate servo positions.
 */
 
 void semaphore(int letter) {
@@ -140,10 +140,31 @@ void semaphore(int letter) {
     Serial.println(letter);
 
     /*
-        Convert the ASCII code to the "codes" array indexing.
+        Create a variable to hold the index position.
     */
 
-    int pos = letter - 65;
+    int pos = -1;
+    
+    /*
+        Convert the ASCII code to the "codes" array indexing.
+    */
+   
+    if (letter >= 97 && letter <= 122) {
+      
+        /*
+            The letter is lowercase.
+        */
+
+        pos = letter - 97;
+
+    } else if (letter >= 65 && letter <= 90) {
+        
+        /*
+            The letter is uppercase.
+        */
+
+        pos = letter - 65;
+    }
 
     /*
         Work out what we need to do.

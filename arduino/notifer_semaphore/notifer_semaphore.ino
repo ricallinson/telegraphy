@@ -160,16 +160,16 @@ void semaphore(int letter) {
         delay(UNIT * 4);
 
     } else if (pos >= 0 && pos < 26) {
-        
-        /*
-            Words.
-        */
-
-        digitalWrite(MASTERPIN, HIGH);
 
         /*
             If the value of "pos" is within the array index we have a letter.
         */
+
+        /*
+            Turn on power to the master pin (could use a light).
+        */
+
+        digitalWrite(MASTERPIN, HIGH);
 
         /*
             Convert the input char to a semaphore
@@ -181,7 +181,7 @@ void semaphore(int letter) {
         delay(UNIT * 3);
 
         /*
-            Words.
+            Turn off power to the master pin (could use a light).
         */
 
         digitalWrite(MASTERPIN, LOW);

@@ -265,12 +265,6 @@ exports.sendAlert = function (msg) {
         }
 
         /*
-            Make sure the message is uppercase and is only A-Z or spaces.
-        */
-
-        msg = msg.toUpperCase().replace(/[^A-Z ]/g, " ");
-
-        /*
             Log that we are going to try and send a message.
         */
 

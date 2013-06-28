@@ -1,9 +1,11 @@
-echo $(node -v)
 
-if [ $(node -v) != "v0.6.21" ]
+if [ $(node -v) != "v0.6.21-pre" ]
   then
+ 	echo $(node -v)
     exit 0
 fi
+
+echo "Installing packages for NodeJS v0.6.x"
 
 sudo npm install serialport@1.0.6
 cd node_modules/serialport

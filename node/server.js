@@ -30,6 +30,7 @@
 
 var program = require("commander"),
     express = require("express"),
+    epacks = require("express-packs"),
     consolidate = require("consolidate"),
     configs = require("./lib/configs"),
     notifier = require("./lib/notifier"),
@@ -86,7 +87,6 @@ app.engine("html", consolidate.handlebars);
 */
 
 app.set("view engine", "html");
-app.set("views", path.join(__dirname, "views"));
 
 /*
     Use the connect bodyParser() to read the form values.
@@ -98,97 +98,15 @@ app.use(express.bodyParser());
     Use the connect static() handler to serve assets.
 */
 
-app.use(express.static(path.join(__dirname, "assets")));
+//- app.use(express.static(path.join(__dirname, "assets")));
 
 /*
-    The main URL for the web application.
+    Use express-packs to add routes and templates.
 */
 
-app.get("/", function (req, res) {
-
-    var messages = [
-        "Be there in two minutes",
-        "Come quick it is working",
-        "Can I have a cup of tea",
-        "Have you seen my glasses"
-    ];
-
-    res.render("main", {messages: messages});
-});
-
-/*
-    This URL is used to test the the Arduino is working correctly.
-*/
-
-app.get("/notify", function (req, res) {
-    notifier.sendAlert(req.query.msg || "Testing");
-    res.redirect("/");
-});
-
-/*
-    This URL is used to create or edit accounts.
-*/
-
-app.get("/accounts", function (req, res) {
-
-    configs.readConfigs(function (accounts) {
-
-        /*
-            Add an empty account so it can be used create a new one.
-        */
-
-        accounts.push({
-            port: 993,
-            secure: false
-        });
-
-        /*
-            Render the accounts in the main HTML page.
-        */
-
-        res.render("accounts", {accounts: accounts});
-    });
-});
-
-/*
-    This URL is used to save a new account or update one.
-*/
-
-app.post("/save", function (req, res) {
-
-    if (req.body.action === "Delete") {
-        configs.deleteConfig(req.body.username);
-    } else if (req.body.action === "Save") {
-        configs.saveConfig({
-            type: "imap",
-            username: req.body.username,
-            password: req.body.password,
-            host: req.body.host,
-            port: req.body.port,
-            secure: (req.body.secure === "true" ? "true" : "")
-        });
-    }
-
-    res.redirect("/accounts");
-});
-
-/*
-    This URL is used to force the checking of new mail.
-*/
-
-app.get("/check", function (req, res) {
-    checker.check(configs, notifier);
-    res.redirect("/accounts");
-});
-
-/*
-    This URL is used to re-connect each Arduino.
-*/
-
-app.get("/reset", function (req, res) {
-    notifier.connect(program.serialPort);
-    res.redirect("/");
-});
+app.set("packs dir", path.join(__dirname, "packs"));
+app.set("views", path.join(__dirname, "packs"));
+app.use(epacks(app));
 
 /*
     With the application setup and ready to go we listen for requests.

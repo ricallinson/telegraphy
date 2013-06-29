@@ -29,7 +29,9 @@
     Load the modules required.
 */
 
-var configs = require("../../lib/configs"),
+var composite = require("express-composite"),
+    confdir = require("confdir"),
+    configs = require("../../lib/configs"),
     notifier = require("../../lib/notifier"),
     checker = require("../../lib/checker");
 
@@ -39,23 +41,22 @@ var configs = require("../../lib/configs"),
 
 exports.GET_index = function (req, res) {
 
-    var messages = [
-        "Be there in two minutes.",
-        "Come quick it is working!",
-        "Can I have a cup of tea?",
-        "Have you seen my glasses?"
-    ];
-
-    res.render("simple/views/main", {messages: messages});
+    composite.render({
+        tmpl: "telegraphy/views/index",
+        slots: {
+            body: {
+                module: "telegraphy/ctr",
+                action: "index"
+            }
+        }
+    }, req, res);
 };
 
-/*
-    This URL is used to test the the Arduino is working correctly.
-*/
+exports.index = function (req, res) {
 
-exports.GET_notify = function (req, res) {
-    notifier.sendAlert(req.query.msg || "Testing");
-    res.redirect("/");
+    var messages = confdir.read(__dirname + "/confs").presets;
+
+    res.render("telegraphy/views/home", {messages: messages});
 };
 
 /*
@@ -63,6 +64,20 @@ exports.GET_notify = function (req, res) {
 */
 
 exports.GET_accounts = function (req, res) {
+    
+    composite.render({
+        tmpl: "telegraphy/views/index",
+        slots: {
+            body: {
+                module: "telegraphy/ctr",
+                action: "accounts"
+            }
+        }
+    }, req, res);
+};
+
+exports.accounts = function (req, res) {
+
     configs.readConfigs(function (accounts) {
 
         /*
@@ -78,8 +93,17 @@ exports.GET_accounts = function (req, res) {
             Render the accounts in the main HTML page.
         */
 
-        res.render("simple/views/accounts", {accounts: accounts});
+        res.render("telegraphy/views/accounts", {accounts: accounts});
     });
+};
+
+/*
+    This URL is used to test the the Arduino is working correctly.
+*/
+
+exports.GET_notify = function (req, res) {
+    notifier.sendAlert(req.query.msg || "Testing");
+    res.redirect("/");
 };
 
 /*

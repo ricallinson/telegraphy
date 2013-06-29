@@ -110,7 +110,7 @@ exports.GET_notify = function (req, res) {
     This URL is used to save a new account or update one.
 */
 
-exports.PODT_save = function (req, res) {
+exports.POST_save = function (req, res) {
     if (req.body.action === "Delete") {
         configs.deleteConfig(req.body.username);
     } else if (req.body.action === "Save") {

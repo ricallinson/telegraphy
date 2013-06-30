@@ -290,6 +290,14 @@ exports.writeMsg = function (msg, port) {
 
     if (serialPort[port]) {
 
+        /*
+            Convert the message to uppercase if required.
+        */
+
+        if (true) {
+            msg = msg.toUpperCase();
+        }
+
         serialPort[port].write(msg, function (err) {
 
             /*

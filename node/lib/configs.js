@@ -72,27 +72,39 @@ exports.root = "";
 
 exports.saveConfig = function (cfg, fn) {
 
-    var filename = path.join(exports.root, cfg.username + EXT),
-        json = JSON.stringify(cfg),
-        file = encode(json, SECRET);
+    /*
+        Declare some variables.
+    */
+
+    var filename,
+        json,
+        file;
 
     /*
         If we were not given a callback create a fake one.
     */
 
     if (!fn) {
-        fn = function () {};
+        throw new Error("A callback function is required.");
     }
 
     /*
         If there is no "username" we cannot make a configuration file.
     */
 
-    if (!cfg.username) {
+    if (!cfg || !cfg.username) {
         console.log("Error saving as no username was given for configuration file: " + filename);
         fn(false);
         return;
     }
+
+    /*
+        Set the filename and file content.
+    */
+
+    filename = path.join(exports.root, cfg.username + EXT);
+    json = JSON.stringify(cfg);
+    file = encode(json, SECRET);
 
     /*
         Write the configuration file to disk in the "exports.root" directory.
@@ -101,11 +113,11 @@ exports.saveConfig = function (cfg, fn) {
     fs.writeFile(filename, file, "utf8", function (err) {
         if (err) {
             console.log("Error saving configuration file: " + filename);
-            fn(true);
+            fn(false);
             return;
         }
         console.log("Successfully saved configuration: " + filename);
-        fn(false);
+        fn(true);
     });
 };
 
@@ -115,15 +127,17 @@ exports.saveConfig = function (cfg, fn) {
 
 exports.deleteConfig = function (username, fn) {
 
-    var filename = path.join(exports.root, username + EXT);
+    var filename;
 
     /*
         If we were not given a callback create a fake one.
     */
 
     if (!fn) {
-        fn = function () {};
+        throw new Error("A callback function is required.");
     }
+
+    filename = path.join(exports.root, username + EXT);
 
     /*
         Delete the "username" configuration file in the "exports.root" directory.
@@ -132,11 +146,41 @@ exports.deleteConfig = function (username, fn) {
     fs.unlink(filename, function (err) {
         if (err) {
             console.log("Error deleting configuration file: " + filename);
-            fn(true);
+            fn(false);
+            return;
         }
         console.log("Successfully deleted configuration file: " + filename);
-        fn(false);
+        fn(true);
     });
+};
+
+/*
+    Reads an encrypted configuration file found at "abspath" and returns it
+    as a decrypted JS objects.
+*/
+
+exports.readConfig = function (abspath) {
+
+    var cfg,
+        file;
+
+    /*
+        Read the raw file and decode it.
+    */
+
+    file = decode(fs.readFileSync(abspath, "utf8"), SECRET);
+
+    /*
+        The decoded file is in JSON so parse it into a JS object.
+    */
+
+    cfg = JSON.parse(file);
+
+    /*
+        Return the decrypted JS object.
+    */
+
+    return cfg;
 };
 
 /*
@@ -146,19 +190,22 @@ exports.deleteConfig = function (username, fn) {
 
 exports.readConfigs = function (fn) {
 
-    fs.readdir(exports.root, function (err, list) {
+    var self = this;
+
+    /*
+        If we were not given a callback create a fake one.
+    */
+
+    if (!fn) {
+        throw new Error("A callback function is required.");
+    }
+
+    fs.readdir(this.root, function (err, list) {
 
         var configs = [];
 
         if (err) {
             console.log("No configuration files were loaded as there was an error reading the directory: " + exports.root);
-        }
-
-        /*
-            If there are no files in the folder set the list to an empty array.
-        */
-
-        if (!list) {
             list = [];
         }
 
@@ -168,8 +215,7 @@ exports.readConfigs = function (fn) {
 
         list.forEach(function (filename) {
 
-            var cfg,
-                file;
+            var cfg;
 
             /*
                 Check that the file is one of our configuration files.
@@ -177,23 +223,14 @@ exports.readConfigs = function (fn) {
 
             if (REGEX_EXT.test(filename)) {
 
-                /*
-                    Read the raw file and decode it.
-                */
-
-                file = decode(fs.readFileSync(path.join(exports.root, filename), "utf8"), SECRET);
+                cfg = self.readConfig(path.join(exports.root, filename));
 
                 /*
-                    The decoded file is in JSON so parse it into a JS object.
+                    If we are given an object with a username add
+                    it to the configuration objects array.
                 */
 
-                cfg = JSON.parse(file);
-
-                /*
-                    Add the final object to the "configs" array if it has data.
-                */
-
-                if (cfg.username) {
+                if (cfg && cfg.username) {
                     configs.push(cfg);
                 }
             }

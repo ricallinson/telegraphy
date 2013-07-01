@@ -112,7 +112,9 @@ exports.GET_notify = function (req, res) {
 
 exports.POST_save = function (req, res) {
     if (req.body.action === "Delete") {
-        configs.deleteConfig(req.body.username);
+        configs.deleteConfig(req.body.username, function () {
+            // ...
+        });
     } else if (req.body.action === "Save") {
         configs.saveConfig({
             type: "imap",
@@ -121,6 +123,8 @@ exports.POST_save = function (req, res) {
             host: req.body.host,
             port: req.body.port,
             secure: (req.body.secure === "true" ? "true" : "")
+        }, function (result) {
+            // ..
         });
     }
 

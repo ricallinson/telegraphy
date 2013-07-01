@@ -83,7 +83,9 @@ exports.check = function (configs, notifier) {
                             Save the updated configuration.
                         */
 
-                        configs.saveConfig(updatedAccountCfg);
+                        configs.saveConfig(updatedAccountCfg, function () {
+                            // ...
+                        });
                     }
                 });
 

@@ -58,7 +58,7 @@ function decode(text, secret) {
         dec += decipher.final("utf8");
         return dec;
     } catch (err) {
-        return "{}";
+        return null;
     }
 }
 
@@ -170,7 +170,7 @@ exports.readConfig = function (abspath) {
         Read the raw file and decode it.
     */
 
-    file = decode(fs.readFileSync(abspath, "utf8"), SECRET);
+    file = decode(fs.readFileSync(abspath, "utf8"), SECRET) || "{}";
 
     /*
         The decoded file is in JSON so parse it into a JS object.

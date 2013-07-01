@@ -6,12 +6,14 @@ Telegraphy is a project that uses an [Arduino](http://www.arduino.cc/) microcont
 
 ## Checkout & Install
 
+You'll need [git](http://git-scm.com/) installed to follow this guide.
+
     git clone git@github.com:ricallinson/telegraphy.git
     cd ./telegraphy
 
 ### 1. Arduino
 
-From within the Arduino IDE open the __./arduino/notifier_morse_code/notifier_morse_code.ino__ sketch. Make sure your Arduino board is connected and __Upload__ the sketch.
+From within the [Arduino IDE](http://arduino.cc/en/main/software) open the __./arduino/notifier_morse_code/notifier_morse_code.ino__ sketch. Make sure your Arduino board is connected and __Upload__ the sketch.
 
 ### 2. Node
 

@@ -225,6 +225,16 @@ describe("config.readConfigs()", function () {
 
         configs.readConfigs(function (configs) {
 
+            configs.sort(function (a, b) {
+                if (a.port < b.port) {
+                    return -1;
+                }
+                if (a.port > b.port) {
+                    return 1;
+                }
+                return 0;
+            });
+
             assert.equal(configs.length, 3);
             assert.equal(configs[0].port, "");
             assert.equal(configs[1].port, "23");

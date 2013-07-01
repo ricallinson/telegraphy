@@ -221,7 +221,7 @@ describe("config.readConfigs()", function () {
         assert.throws(configs.readConfigs);
     });
 
-    it("should return ...", function (done) {
+    it("should return a list of complete configuration objects", function (done) {
 
         configs.readConfigs(function (configs) {
 

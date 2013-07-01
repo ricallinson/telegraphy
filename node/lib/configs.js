@@ -50,9 +50,11 @@ function encode(text, secret) {
 */
 
 function decode(text, secret) {
-    var decipher = crypto.createDecipher("aes-256-cbc", secret),
-        dec = decipher.update(text, "hex", "utf8");
+    var decipher,
+        dec;
     try {
+        decipher = crypto.createDecipher("aes-256-cbc", secret);
+        dec = decipher.update(text, "hex", "utf8");
         dec += decipher.final("utf8");
         return dec;
     } catch (err) {

@@ -2,7 +2,7 @@
 
 [![Build Status](https://secure.travis-ci.org/ricallinson/telegraphy.png?branch=master)](http://travis-ci.org/ricallinson/telegraphy)
 
-Telegraphy is a project that uses an [Arduino](http://www.arduino.cc/) microcontroller and [Node](http://nodejs.org/) to provide physical notifications for the arrival of messages such as emails.
+Telegraphy is a project that uses an [Arduino](http://www.arduino.cc/) microcontroller and [NodeJS](http://nodejs.org/) to provide physical notifications for the arrival of messages such as emails.
 
 ## Checkout & Install
 
@@ -17,7 +17,7 @@ From within the [Arduino IDE](http://arduino.cc/en/main/software) open the __./a
 
 ### 2. Node
 
-You must have [Node](http://nodejs.org/) and [npm](https://npmjs.org/) installed to follow these steps. Should you get an install error check the [node-serialport install guide](https://github.com/voodootikigod/node-serialport#to-install) to make sure you have the prerequisites to compile ANY native module for Node.js.
+You must have [NodeJS](http://nodejs.org/) and [npm](https://npmjs.org/) installed to follow these steps. Should you get an install error check the [node-serialport install guide](https://github.com/voodootikigod/node-serialport#to-install) to make sure you have the prerequisites to compile ANY native module for Node.js.
 
     cd ./node
     npm install

@@ -2,7 +2,7 @@
 
 [![Build Status](https://secure.travis-ci.org/ricallinson/telegraphy.png?branch=master)](http://travis-ci.org/ricallinson/telegraphy)
 
-Telegraphy is a project that uses an [Arduino](http://www.arduino.cc/) microcontroller and [Node](http://nodejs.org/) to provide physical notifications for the arrival of emails.
+Telegraphy is a project that uses an [Arduino](http://www.arduino.cc/) microcontroller and [Node](http://nodejs.org/) to provide physical notifications for the arrival of messages such as emails.
 
 ## Checkout & Install
 

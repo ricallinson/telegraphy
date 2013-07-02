@@ -54,7 +54,12 @@ exports.check = function (configs, notifier) {
 
         accounts.forEach(function (account) {
 
-            checker = require("./checkers/" + account.type);
+            try {
+                checker = require("./checkers/" + account.type);
+            } catch (err) {
+                console.log("Module " + "./checkers/" + account.type + " was not found.");
+                return;
+            }
 
             /*
                 Check if the requested checker is supported.

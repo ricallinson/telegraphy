@@ -168,7 +168,7 @@ exports.check = function (account, callback) {
                                     Only use the subject for the alert text if one is found.
                                 */
 
-                                if (headers.subject.length) {
+                                if (headers && headers.subject && headers.subject.length) {
                                     text = headers.subject[0];
                                 }
 

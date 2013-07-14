@@ -4,7 +4,9 @@
 
 Telegraphy is a project that uses an [Arduino](http://www.arduino.cc/) microcontroller and [NodeJS](http://nodejs.org/) to provide physical notifications for the arrival of messages such as emails.
 
-<iframe width="560" height="315" src="//www.youtube.com/embed/L_SIijP4jLY" frameborder="0" allowfullscreen></iframe>
+<p><iframe width="560" height="315" src="//www.youtube.com/embed/5QtnMulH1C8" frameborder="0" allowfullscreen></iframe></p>
+<p><iframe width="560" height="315" src="//www.youtube.com/embed/L_SIijP4jLY" frameborder="0" allowfullscreen></iframe></p>
+<p><iframe width="560" height="315" src="//www.youtube.com/embed/fEoVG6F8TBo" frameborder="0" allowfullscreen></iframe></p>
 
 ## Checkout & Install
 

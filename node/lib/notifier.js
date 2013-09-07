@@ -306,6 +306,7 @@ exports.writeMsg = function (msg, port) {
 
             if (err) {
                 console.log("Error sending alert on port: " + port);
+                console.log(err);
             } else {
                 console.log("Alert sent successfully on port: " + port);
             }

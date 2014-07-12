@@ -1,0 +1,11 @@
+{
+    "name": "simple-example",
+    "version": "0.0.1",
+    "description": "Simple example.",
+    "dependencies" : {
+        "express": "*",
+        "consolidate": "*",
+        "handlebars": "*"
+    },
+    "license": "MIT"
+}

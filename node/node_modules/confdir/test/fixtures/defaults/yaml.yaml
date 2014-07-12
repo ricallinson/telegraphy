@@ -1,0 +1,4 @@
+yamlKey: 1
+yamlDefault: 2
+yamlMap:
+    mapKey: mapValue

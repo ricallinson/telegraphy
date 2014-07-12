@@ -1,0 +1,12 @@
+
+./node_modules/.bin/jshint --verbose ./index.js
+./node_modules/.bin/jshint --verbose ./test
+
+echo 
+echo =============================================================================
+echo Coverage Report $(pwd)/coverage/lcov-report/index.html
+echo =============================================================================
+
+node ./node_modules/istanbul/lib/cli.js cover -- ./node_modules/mocha/bin/_mocha test
+
+exit $?

@@ -13,12 +13,12 @@
         "express": "3.1.x",
         "express-packs": "git://github.com/ricallinson/express-packs.git#master",
         "express-composite": "git://github.com/ricallinson/express-composite.git#master",
-        "consolidate": "*",
+        "consolidate": "0.9.1",
         "handlebars": "1.0.11",
         "confdir": "git://github.com/ricallinson/confdir.git#master",
-        "imap": "*",
-        "serialport": "*",
-        "commander": "*"
+        "imap": "0.7.12",
+        "serialport": "1.1.1",
+        "commander": "1.2.0"
     },
     "devDependencies" : {
         "jshint": "*",

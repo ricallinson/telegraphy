@@ -38,7 +38,7 @@ var program = require("commander"),
     utils = require("./lib/utils"),
     path = require("path"),
     app = express(),
-    port = 80;
+    port = 8080;
 
 /*
     Get the command line inputs

@@ -35,6 +35,7 @@ var program = require("commander"),
     configs = require("./lib/configs"),
     notifier = require("./lib/notifier"),
     checker = require("./lib/checker"),
+    random = require("./lib/random"),
     utils = require("./lib/utils"),
     path = require("path"),
     app = express(),
@@ -48,7 +49,7 @@ program
     .version("0.0.1")
     .option("-l, --list-serial-ports", "List the available serial ports", null)
     .option("-s, --serial-port [port]", "Force the serial port to use", null)
-    .option("-i, --interval [minutes]", "The number of minutes between checks", 1)
+    .option("-i, --interval [minutes]", "The number of minutes between checks", 10)
     .parse(process.argv);
 
 /*
@@ -69,6 +70,20 @@ if (program.listSerialPorts) {
 */
 
 notifier.connect(program.serialPort);
+
+/*
+    With the web application running we now check for mail every n minutes.
+*/
+
+setInterval(function () {
+    random.words(notifier);
+}, 5000); // program.interval * 1000 * 60);
+
+return;
+
+/*
+    ----------------------- END OF PROGRAM ------------------------
+ */
 
 /*
     Set the root location of the configuration files.

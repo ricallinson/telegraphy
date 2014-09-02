@@ -72,12 +72,20 @@ if (program.listSerialPorts) {
 notifier.connect(program.serialPort);
 
 /*
-    With the web application running we now check for mail every n minutes.
+    With the web application running we send a new message every n minutes.
 */
 
 setInterval(function () {
-    random.words(notifier);
-}, 5000); // program.interval * 1000 * 60);
+    random.words(notifier, 3);
+}, program.interval * 1000 * 60);
+
+/*
+    Send a new message after 10 seconds.
+*/
+
+setTimeout(function () {
+    random.words(notifier, 5);
+}, 10000);
 
 return;
 
